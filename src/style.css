@@ -1,8 +1,6 @@
-/* ============================================================
-   Jahanzaib Ashraf Mir — Portfolio
-   Theme: professional warm white / beige / navy / cobalt
-   Type: Inter everywhere (mono only inside the terminal)
-   ============================================================ */
+/* 
+   Jahanzaib Ashraf Mir Portfolio
+ */
 
 :root {
   --paper: #FBFAF6;        /* warm white */
@@ -37,7 +35,6 @@ body {
 
 ::selection { background: var(--blue); color: #fff; }
 
-/* ============ 3D CANVAS ============ */
 #bg {
   position: fixed;
   inset: 0;
@@ -47,7 +44,6 @@ body {
 
 main { position: relative; z-index: 1; }
 
-/* ============ NAVBAR ============ */
 #navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -116,7 +112,6 @@ main { position: relative; z-index: 1; }
 #menu-toggle.open span:nth-child(2) { opacity: 0; }
 #menu-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* ============ HERO ============ */
 #hero {
   min-height: 100vh;
   display: flex;
@@ -264,8 +259,6 @@ main { position: relative; z-index: 1; }
   51% { transform: scaleY(1); transform-origin: bottom; }
   100% { transform: scaleY(0); transform-origin: bottom; }
 }
-
-/* ============ MARQUEE ============ */
 .marquee {
   background: var(--ink);
   color: var(--beige);
@@ -289,7 +282,6 @@ main { position: relative; z-index: 1; }
 }
 @keyframes scrollX { to { transform: translateX(-50%); } }
 
-/* ============ SECTIONS ============ */
 .content-section {
   padding: 130px 8vw;
   max-width: 1380px;
@@ -328,7 +320,6 @@ main { position: relative; z-index: 1; }
 }
 .section-head h2 em { font-style: normal; color: var(--blue); }
 
-/* ============ ABOUT ============ */
 .about-grid {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -365,7 +356,7 @@ main { position: relative; z-index: 1; }
   color: var(--muted);
 }
 
-/* terminal card — the one place the mono font lives */
+
 .terminal {
   background: #141E33;
   border-radius: 14px;
@@ -411,7 +402,7 @@ main { position: relative; z-index: 1; }
   animation: blink 1s step-end infinite;
 }
 
-/* ============ PROJECTS ============ */
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -513,7 +504,6 @@ main { position: relative; z-index: 1; }
 }
 .p-link:hover { color: var(--blue); border-color: var(--blue); }
 
-/* ============ SKILLS ============ */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -598,7 +588,7 @@ main { position: relative; z-index: 1; }
 .skill-card.edu .edu-school { color: #F3EFE2; }
 .skill-card.edu .edu-degree { color: #93A1BC; }
 
-/* ============ CONTACT ============ */
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.15fr;
@@ -682,7 +672,6 @@ form input:focus, form textarea:focus {
   text-align: center;
 }
 
-/* ============ FOOTER ============ */
 footer {
   text-align: center;
   padding: 56px 20px 44px;
@@ -698,7 +687,6 @@ footer {
 }
 footer p:last-child { font-size: 0.9rem; }
 
-/* ============ REVEAL ANIMATIONS ============ */
 .reveal {
   opacity: 0;
   transform: translateY(34px);
@@ -717,7 +705,6 @@ footer p:last-child { font-size: 0.9rem; }
   html { scroll-behavior: auto; }
 }
 
-/* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 50px; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
