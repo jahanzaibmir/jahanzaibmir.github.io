@@ -1,10 +1,5 @@
 import * as THREE from 'three';
 
-/* ==========================================================
-   1. 3D SCENE — deep, layered paper world
-      fog depth · orbit rings · wireframe shell · floating
-      shape field · distant monolith · scroll-driven rotation
-   ========================================================== */
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const motionScale = prefersReduced ? 0 : 1;
@@ -268,10 +263,6 @@ if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersR
   });
 }
 
-/* ==========================================================
-   3. HERO TYPING EFFECT
-   ========================================================== */
-
 const roles = [
   'offensive security',
   'kernel development',
@@ -303,9 +294,7 @@ function typeLoop(text, i = 0, deleting = false) {
 }
 typeLoop(0);
 
-/* ==========================================================
-   4. TERMINAL CARD (About section)
-   ========================================================== */
+
 
 const termLines = [
   { html: '<span class="cmd">~ $</span> <span class="cmd">whoami</span>', delay: 300 },
@@ -342,9 +331,6 @@ function runTerminal() {
   nextLine();
 }
 
-/* ==========================================================
-   5. SCROLL REVEALS + ACTIVE NAV
-   ========================================================== */
 
 // IntersectionObserver alone can miss elements when the page jumps
 // past them (keyboard, anchor links); this fallback also fires for
@@ -397,9 +383,7 @@ const sectionObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '-45% 0px -50% 0px' });
 sections.forEach((s) => sectionObserver.observe(s));
 
-/* ==========================================================
-   6. MOBILE MENU
-   ========================================================== */
+
 
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
@@ -418,9 +402,9 @@ navLinks.querySelectorAll('a').forEach((a) => {
   });
 });
 
-/* ==========================================================
-   7. CONTACT FORM (Web3Forms)
-   ========================================================== */
+
+   // CONTACT FORM (Web3Forms)
+ 
 
 const contactForm = document.getElementById('contact-form');
 const formStatus = document.getElementById('form-status');
@@ -459,7 +443,7 @@ contactForm.addEventListener('submit', async (e) => {
     }
   } catch (error) {
     formStatus.style.color = '#B3423A';
-    formStatus.innerText = 'Transmission failed — please retry.';
+    formStatus.innerText = 'Transmission failed please retry.';
   } finally {
     submitBtn.innerText = 'Transmit Message';
     submitBtn.disabled = false;
