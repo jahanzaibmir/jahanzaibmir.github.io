@@ -247,9 +247,7 @@ window.addEventListener('resize', () => {
 
 animate();
 
-/* ==========================================================
-   2. 3D CARD TILT (desktop pointers only)
-   ========================================================== */
+//3d card tilt
 
 if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReduced) {
   document.querySelectorAll('.project-card').forEach((card) => {
@@ -269,7 +267,9 @@ const roles = [
   'low-level programming',
   'computer networking',
   'malware research',
-  'defensive engineering'
+  'defensive engineering',
+  'cybersecurity research',
+  'bug bounty'
 ];
 const typedEl = document.getElementById('typed');
 
@@ -298,13 +298,13 @@ typeLoop(0);
 
 const termLines = [
   { html: '<span class="cmd">~ $</span> <span class="cmd">whoami</span>', delay: 300 },
-  { html: '<span class="out">jahanzaib ashraf mir — cybersecurity engineer</span>', delay: 500 },
+  { html: '<span class="out">jahanzaib ashraf mir cybersecurity engineer and reseacher</span>', delay: 500 },
   { html: '<span class="cmd">~ $</span> <span class="dir">uname</span> <span class="cmd">-a</span>', delay: 650 },
   { html: '<span class="out">curiosity 6.2 kernel-up x86_64 SRM-AP</span>', delay: 500 },
   { html: '<span class="cmd">~ $</span> <span class="cmd">./focus --list</span>', delay: 650 },
-  { html: '<span class="hl">[+] low-level programming</span>', delay: 260 },
+  { html: '<span class="hl">[+] low level programming</span>', delay: 260 },
   { html: '<span class="hl">[+] computer networking</span>', delay: 260 },
-  { html: '<span class="hl">[+] offensive / defensive security</span>', delay: 260 },
+  { html: '<span class="hl">[+] offensive / defensive security / bug bounty</span>', delay: 260 },
   { html: '<span class="cmd">~ $</span> <span class="cmd">echo $MISSION</span>', delay: 700 },
   { html: '<span class="out">"build & safeguard scalable systems — from the kernel up."</span>', delay: 500 }
 ];
