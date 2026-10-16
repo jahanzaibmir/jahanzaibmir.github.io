@@ -3,25 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jahanzaib Ashraf Mir — Cybersecurity Engineer &amp; Researcher</title>
-    <meta name="description" content="Jahanzaib Ashraf Mir — cybersecurity engineer, researcher and developer. I build and safeguard scalable systems from the kernel up." />
+    <title>Jahanzaib Ashraf Mir | Cybersecurity Engineer</title>
+    <meta name="description" content="Jahanzaib Ashraf Mir is a cybersecurity engineer and researcher. He builds secure systems, starting from the kernel." />
     <meta name="author" content="Jahanzaib Ashraf Mir" />
-    <meta name="theme-color" content="#0b0c0e" />
+    <meta name="theme-color" content="#222224" />
     <meta name="color-scheme" content="dark" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Jahanzaib Ashraf Mir — Cybersecurity Engineer &amp; Researcher" />
-    <meta property="og:description" content="I build and safeguard scalable systems from the kernel up." />
+    <meta property="og:title" content="Jahanzaib Ashraf Mir | Cybersecurity Engineer" />
+    <meta property="og:description" content="I build secure systems, starting from the kernel." />
     <meta property="og:url" content="https://jahanzaibmir.github.io/" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:creator" content="@Jahanzaib1318" />
     <link rel="canonical" href="https://jahanzaibmir.github.io/" />
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0c0e'/%3E%3Cpath d='M32 11 L49 17.5 v11.5 c0 11.5-7.5 18.5-17 23 C22.5 47.5 15 40.5 15 29 V17.5 Z' fill='none' stroke='%23e7e9ec' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M25 31 l5 5 l10-10' fill='none' stroke='%2394a3b8' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23f2f2f2'/%3E%3Cpath d='M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28' fill='none' stroke='%23222224' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
 
     <script type="importmap">
@@ -33,32 +33,40 @@
   <body class="is-loading">
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Intro curtain -->
+    <!-- Boot screen -->
     <div class="intro" aria-hidden="true">
-      <div class="intro-mark">
-        <span class="intro-line"><span>Jahanzaib Ashraf Mir</span></span>
-        <span class="intro-bar"><span></span></span>
+      <div class="boot">
+        <svg class="boot-logo" viewBox="0 0 96 64">
+          <path class="l-j" d="M38 10v30a14 14 0 0 1-27 6" />
+          <path class="l-m" d="M50 54V10l13 24 13-24v44" />
+        </svg>
+        <div class="boot-dots"><i></i><i></i><i></i><i></i><i></i></div>
       </div>
+      <div class="welcome">
+        <p class="welcome-hi">Welcome</p>
+        <p class="welcome-name">Jahanzaib Ashraf Mir</p>
+      </div>
+      <p class="intro-skip">Click anywhere to skip</p>
     </div>
 
     <canvas id="bg" aria-hidden="true"></canvas>
-    <div class="grain" aria-hidden="true"></div>
     <div class="progress" aria-hidden="true"><span></span></div>
+    <div class="cursor-ring" aria-hidden="true"></div>
 
-    <nav id="navbar" aria-label="Primary">
-      <a href="#hero" class="nav-logo" aria-label="Jahanzaib Ashraf Mir — home">
-        <span class="logo-mark">JM</span>
+    <nav id="navbar" aria-label="Main">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28"/></svg>
+        </span>
         <span class="logo-text">Jahanzaib Ashraf Mir</span>
       </a>
 
       <ul class="nav-links" id="nav-links">
-        <li><a href="#about"><span class="n">01</span>About</a></li>
-        <li><a href="#projects"><span class="n">02</span>Work</a></li>
-        <li><a href="#skills"><span class="n">03</span>Toolkit</a></li>
-        <li><a href="#contact"><span class="n">04</span>Contact</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
-
-      <a href="#contact" class="nav-cta">Let's talk</a>
 
       <button id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
         <span></span><span></span>
@@ -69,285 +77,224 @@
       <!-- Hero -->
       <header id="hero">
         <div class="hero-inner">
-          <p class="eyebrow" data-hero>
-            <span class="status-dot" aria-hidden="true"></span>
-            Available for research &amp; collaboration
+          <p class="hero-kicker" data-hero><span class="dot" aria-hidden="true"></span>Cybersecurity Engineer and Researcher</p>
+          <h1 class="letters" aria-label="Jahanzaib Ashraf Mir">Jahanzaib Ashraf Mir</h1>
+          <p class="hero-text" data-hero>
+            I build secure systems, and I break them to learn how they work.
+            My focus is low level code, computer networks and security.
           </p>
-
-          <h1 class="hero-title" aria-label="Jahanzaib Ashraf Mir">
-            <span class="line"><span data-hero>Jahanzaib</span></span>
-            <span class="line"><span data-hero>Ashraf <em>Mir</em></span></span>
-          </h1>
-
-          <div class="hero-sub">
-            <p class="tagline" data-hero>
-              Cybersecurity engineer &amp; researcher. I build and safeguard scalable systems
-              from the <em>kernel</em> up.
-            </p>
-            <p class="typing-line" data-hero aria-live="off">
-              <span class="prompt">~/focus $</span>
-              <span id="typed">offensive security</span><span class="caret" aria-hidden="true"></span>
-            </p>
-          </div>
-
+          <p class="hero-typing" data-hero>
+            Right now I am into <span id="typed">offensive security</span><span class="caret" aria-hidden="true"></span>
+          </p>
           <div class="hero-cta" data-hero>
-            <a href="#projects" class="btn btn-solid" data-magnetic>
-              <span>View my work</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a href="#contact" class="btn btn-ghost" data-magnetic><span>Get in touch</span></a>
+            <a href="#projects" class="btn btn-solid" data-magnetic>See my projects</a>
+            <a href="#contact" class="btn btn-ghost" data-magnetic>Contact me</a>
           </div>
+          <p class="hero-note" data-hero>B.Tech in Cybersecurity at SRM University AP</p>
         </div>
 
-        <div class="hero-foot" data-hero>
-          <p class="hero-meta"><span>Based in</span> SRM University AP, India</p>
-          <p class="hero-meta"><span>Studying</span> B.Tech, Cybersecurity</p>
-          <a href="#about" class="scroll-indicator" aria-label="Scroll to About">
-            <span class="scroll-line"></span>
-            <span>Scroll</span>
-          </a>
-        </div>
+        <a href="#about" class="scroll-hint" aria-label="Scroll down" data-hero>
+          <span class="mouse"><span></span></span>
+        </a>
       </header>
-
-      <!-- Marquee -->
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee-track">
-          <div class="marquee-group">
-            <span>Offensive Security</span><i></i>
-            <span>Kernel Development</span><i></i>
-            <span>Computer Networking</span><i></i>
-            <span>Low-Level Programming</span><i></i>
-            <span>Malware Research</span><i></i>
-            <span>Defensive Security</span><i></i>
-          </div>
-          <div class="marquee-group">
-            <span>Offensive Security</span><i></i>
-            <span>Kernel Development</span><i></i>
-            <span>Computer Networking</span><i></i>
-            <span>Low-Level Programming</span><i></i>
-            <span>Malware Research</span><i></i>
-            <span>Defensive Security</span><i></i>
-          </div>
-        </div>
-      </div>
 
       <!-- About -->
       <section id="about" class="section">
         <div class="section-head">
-          <p class="section-eyebrow reveal"><span>01</span> About</p>
-          <h2 class="reveal">Engineering trust<br /><em>from the metal up.</em></h2>
+          <h2 class="split">About me</h2>
+          <p class="section-sub reveal">A little about who I am and what I do.</p>
         </div>
 
         <div class="about-grid">
           <div class="about-copy">
             <p class="lead reveal">
-              I'm a cybersecurity engineer and researcher who thinks in syscalls, packets and privileges.
+              I am a cybersecurity engineer and researcher. I like to understand how computers work
+              at the lowest level, from the kernel all the way to the network.
             </p>
             <p class="reveal">
-              My work sits at the intersection of <strong>low-level programming</strong>,
-              <strong>computer networking</strong> and <strong>offensive &amp; defensive security</strong>:
-              breaking systems to understand them, then building ones that don't break.
+              Most of my time goes into low level programming, computer networking, and offensive and
+              defensive security. I break systems to understand them, and then I build systems that are
+              harder to break.
             </p>
             <p class="reveal">
-              That has meant writing a kernel in C and Assembly, building honeypots that profile attackers,
-              and a SIEM that catches them. Outside of coursework I study malware by building it from scratch
-              in isolated lab environments, which is the most direct way I know to learn how to defend against it.
+              I have written a small kernel in C and Assembly, built a honeypot that tracks attackers,
+              and made a SIEM that detects them. I also study malware by writing my own samples and
+              testing them only inside a safe lab.
             </p>
 
-            <dl class="stats-row reveal">
+            <dl class="stats reveal">
               <div class="stat">
-                <dt class="stat-label">Flagship projects</dt>
-                <dd class="stat-num" data-count="4">04</dd>
+                <dd class="stat-num" data-count="4">4</dd>
+                <dt class="stat-label">Main projects</dt>
               </div>
               <div class="stat">
-                <dt class="stat-label">Low-level languages</dt>
-                <dd class="stat-num" data-count="2">02</dd>
+                <dd class="stat-num" data-count="2">2</dd>
+                <dt class="stat-label">Low level languages</dt>
               </div>
               <div class="stat">
-                <dt class="stat-label">High-level languages</dt>
-                <dd class="stat-num" data-count="3">03</dd>
+                <dd class="stat-num" data-count="3">3</dd>
+                <dt class="stat-label">High level languages</dt>
               </div>
             </dl>
           </div>
 
-          <div class="terminal reveal" id="terminal" role="img" aria-label="Terminal: whoami — Jahanzaib Ashraf Mir, cybersecurity engineer and researcher. Focus: low-level programming, computer networking, offensive and defensive security.">
-            <div class="terminal-bar">
-              <span class="t-dot"></span><span class="t-dot"></span><span class="t-dot"></span>
-              <span class="t-title">jahanzaib@srmap — zsh</span>
+          <div class="win-wrap win">
+            <div class="window terminal" id="terminal">
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></svg>
+                  Terminal
+                </span>
+                <span class="win-ctrl">
+                  <button type="button" class="c-min" data-win="min" aria-label="Minimize terminal"></button>
+                  <button type="button" class="c-max" data-win="max" aria-label="Maximize terminal"></button>
+                  <button type="button" class="c-close" data-win="close" aria-label="Close terminal"></button>
+                </span>
+              </div>
+              <div class="win-content">
+                <div class="terminal-body" id="terminal-body" data-lenis-prevent aria-live="polite"></div>
+              </div>
             </div>
-            <div class="terminal-body" id="terminal-body" aria-hidden="true"></div>
+            <button type="button" class="win-reopen" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></svg>
+              Open the terminal again
+            </button>
           </div>
         </div>
       </section>
 
       <!-- Projects -->
       <section id="projects" class="section">
-        <div class="section-head split">
-          <div>
-            <p class="section-eyebrow reveal"><span>02</span> Selected work</p>
-            <h2 class="reveal">Things I've <em>built.</em></h2>
-          </div>
-          <p class="section-note reveal">
-            Research and engineering projects across deception, detection, malware and operating systems.
-            All source on GitHub.
-          </p>
+        <div class="section-head">
+          <h2 class="split">Projects</h2>
+          <p class="section-sub reveal">Some things I have built. All the code is on GitHub.</p>
         </div>
 
-        <div class="projects-list">
-          <article class="project reveal">
-            <a class="project-link" href="https://github.com/jahanzaibmir/Mirage" target="_blank" rel="noopener noreferrer">
-              <span class="p-index">01</span>
-              <div class="p-main">
-                <div class="p-heading">
-                  <h3>Mirage</h3>
-                  <span class="p-cat">Deception · Honeypot</span>
-                </div>
-                <p class="p-role">High-interaction honeypot framework</p>
-                <p class="p-desc">
-                  Lures, profiles and logs attackers inside a controlled deception layer, turning intrusion
-                  attempts into actionable threat intelligence and early-warning signals.
-                </p>
-                <ul class="p-tags" aria-label="Technologies">
-                  <li>Python</li><li>Networking</li><li>Threat Intel</li>
-                </ul>
+        <div class="projects-grid">
+          <article class="win-wrap win">
+            <a class="window tilt" href="https://github.com/jahanzaibmir/Mirage" target="_blank" rel="noopener noreferrer">
+              <div class="win-bar">
+                <span class="win-title">mirage.py</span>
+                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
               </div>
-              <span class="p-arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              </span>
-              <span class="sr-only">(opens source on GitHub)</span>
+              <div class="win-body">
+                <p class="p-type">Honeypot</p>
+                <h3>Mirage</h3>
+                <p class="p-desc">
+                  A honeypot that attracts attackers, records everything they do and turns it into
+                  useful threat information and early warnings.
+                </p>
+                <ul class="tags" aria-label="Built with"><li>Python</li><li>Networking</li><li>Threat Intel</li></ul>
+                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              </div>
             </a>
           </article>
 
-          <article class="project reveal">
-            <a class="project-link" href="https://github.com/jahanzaibmir/ShieldX" target="_blank" rel="noopener noreferrer">
-              <span class="p-index">02</span>
-              <div class="p-main">
-                <div class="p-heading">
-                  <h3>ShieldX</h3>
-                  <span class="p-cat">Defense · SIEM</span>
-                </div>
-                <p class="p-role">Security information &amp; event management</p>
-                <p class="p-desc">
-                  Ingests, correlates and visualizes security events across infrastructure in real time,
-                  with detection, alerting and investigation in a single pane of glass.
-                </p>
-                <ul class="p-tags" aria-label="Technologies">
-                  <li>SIEM</li><li>Detection</li><li>Log Analysis</li>
-                </ul>
+          <article class="win-wrap win">
+            <a class="window tilt" href="https://github.com/jahanzaibmir/ShieldX" target="_blank" rel="noopener noreferrer">
+              <div class="win-bar">
+                <span class="win-title">shieldx</span>
+                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
               </div>
-              <span class="p-arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              </span>
-              <span class="sr-only">(opens source on GitHub)</span>
+              <div class="win-body">
+                <p class="p-type">SIEM</p>
+                <h3>ShieldX</h3>
+                <p class="p-desc">
+                  Collects security events from many systems, links them together and shows alerts
+                  in one dashboard, in real time.
+                </p>
+                <ul class="tags" aria-label="Built with"><li>SIEM</li><li>Detection</li><li>Log Analysis</li></ul>
+                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              </div>
             </a>
           </article>
 
-          <article class="project reveal">
-            <a class="project-link" href="https://github.com/jahanzaibmir/Misery" target="_blank" rel="noopener noreferrer">
-              <span class="p-index">03</span>
-              <div class="p-main">
-                <div class="p-heading">
-                  <h3>Misery</h3>
-                  <span class="p-cat">Research · Malware</span>
-                </div>
-                <p class="p-role">Research-grade ransomware, written in C</p>
-                <p class="p-desc">
-                  A controlled research specimen for studying encryption behavior, propagation paths and the
-                  defensive countermeasures that stop them. Built for the lab, never the wild.
-                </p>
-                <ul class="p-tags" aria-label="Technologies">
-                  <li>C</li><li>Cryptography</li><li>Malware Analysis</li>
-                </ul>
+          <article class="win-wrap win">
+            <a class="window tilt" href="https://github.com/jahanzaibmir/Misery" target="_blank" rel="noopener noreferrer">
+              <div class="win-bar">
+                <span class="win-title">misery.c</span>
+                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
               </div>
-              <span class="p-arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              </span>
-              <span class="sr-only">(opens source on GitHub)</span>
+              <div class="win-body">
+                <p class="p-type">Malware research</p>
+                <h3>Misery</h3>
+                <p class="p-desc">
+                  A ransomware sample written in C to study how these attacks encrypt and spread,
+                  and how to stop them. It is made for the lab only.
+                </p>
+                <ul class="tags" aria-label="Built with"><li>C</li><li>Cryptography</li><li>Malware Analysis</li></ul>
+                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              </div>
             </a>
           </article>
 
-          <article class="project reveal">
-            <a class="project-link" href="https://github.com/jahanzaibmir/relis" target="_blank" rel="noopener noreferrer">
-              <span class="p-index">04</span>
-              <div class="p-main">
-                <div class="p-heading">
-                  <h3>Relis</h3>
-                  <span class="p-cat">Systems · Kernel</span>
-                </div>
-                <p class="p-role">Hobby kernel built from scratch</p>
-                <p class="p-desc">
-                  Boot code, memory management and bare-metal subsystems in C and Assembly: an operating-system
-                  foundation written to understand machines at their most honest level.
-                </p>
-                <ul class="p-tags" aria-label="Technologies">
-                  <li>C</li><li>Assembly</li><li>OS Dev</li>
-                </ul>
+          <article class="win-wrap win">
+            <a class="window tilt" href="https://github.com/jahanzaibmir/relis" target="_blank" rel="noopener noreferrer">
+              <div class="win-bar">
+                <span class="win-title">relis.asm</span>
+                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
               </div>
-              <span class="p-arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
-              </span>
-              <span class="sr-only">(opens source on GitHub)</span>
+              <div class="win-body">
+                <p class="p-type">Operating system</p>
+                <h3>Relis</h3>
+                <p class="p-desc">
+                  A small kernel built from scratch in C and Assembly, with its own boot code and
+                  memory management. I made it to learn how computers really work.
+                </p>
+                <ul class="tags" aria-label="Built with"><li>C</li><li>Assembly</li><li>OS Development</li></ul>
+                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+              </div>
             </a>
           </article>
         </div>
 
-        <div class="projects-more reveal">
-          <a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer" class="text-link">
-            More on GitHub
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
-          </a>
-        </div>
+        <p class="more reveal">
+          <a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer">See all my work on GitHub</a>
+        </p>
       </section>
 
       <!-- Skills -->
       <section id="skills" class="section">
         <div class="section-head">
-          <p class="section-eyebrow reveal"><span>03</span> Skills &amp; education</p>
-          <h2 class="reveal">The <em>toolkit.</em></h2>
+          <h2 class="split">Skills and Education</h2>
+          <p class="section-sub reveal">The languages I use and the areas I work in.</p>
         </div>
 
         <div class="skills-grid">
-          <div class="skill-card reveal">
-            <h3 class="card-label">Languages</h3>
-            <ul class="lang-list">
-              <li>
-                <span class="lang-name">Python</span>
-                <span class="lang-use">Offensive tooling, automation, research scripts</span>
-              </li>
-              <li>
-                <span class="lang-name">C</span>
-                <span class="lang-use">Kernels, systems software, malware research</span>
-              </li>
-              <li>
-                <span class="lang-name">x86 Assembly</span>
-                <span class="lang-use">Boot code, bare metal, reverse engineering</span>
-              </li>
-            </ul>
+          <div class="win-wrap win">
+            <div class="card tilt">
+              <h3>Languages</h3>
+              <ul class="lang-list">
+                <li><span class="lang-name">Python</span><span class="lang-use">Security tools, automation and scripts</span></li>
+                <li><span class="lang-name">C</span><span class="lang-use">Kernels, system software and malware research</span></li>
+                <li><span class="lang-name">x86 Assembly</span><span class="lang-use">Boot code and bare metal programming</span></li>
+              </ul>
+            </div>
           </div>
 
-          <div class="skill-card reveal">
-            <h3 class="card-label">Domains</h3>
-            <ul class="domain-list">
-              <li>Offensive Security &amp; Exploitation</li>
-              <li>Defensive Security &amp; Detection</li>
-              <li>Low-Level &amp; Systems Programming</li>
-              <li>Computer Networking &amp; Protocols</li>
-              <li>Kernel &amp; OS Development</li>
-              <li>Malware Analysis &amp; Research</li>
-            </ul>
+          <div class="win-wrap win">
+            <div class="card tilt">
+              <h3>Areas</h3>
+              <ul class="area-list">
+                <li>Offensive security</li>
+                <li>Defensive security</li>
+                <li>Low level programming</li>
+                <li>Computer networking</li>
+                <li>Kernel and OS development</li>
+                <li>Malware analysis</li>
+              </ul>
+            </div>
           </div>
 
-          <div class="skill-card edu reveal">
-            <h3 class="card-label">Education</h3>
-            <div class="edu-item">
-              <span class="edu-icon" aria-hidden="true">
+          <div class="win-wrap win">
+            <div class="card tilt edu">
+              <h3>Education</h3>
+              <div class="edu-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.2V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.8"/></svg>
-              </span>
-              <div>
-                <p class="edu-school">SRM University AP</p>
-                <p class="edu-degree">Bachelor of Technology</p>
-                <p class="edu-spec">Cybersecurity specialization</p>
               </div>
+              <p class="edu-school">SRM University AP</p>
+              <p class="edu-degree">Bachelor of Technology</p>
+              <p class="edu-spec">Specialization in Cybersecurity</p>
             </div>
           </div>
         </div>
@@ -357,75 +304,85 @@
       <section id="contact" class="section">
         <div class="contact-grid">
           <div class="contact-info">
-            <p class="section-eyebrow reveal"><span>04</span> Contact</p>
-            <h2 class="reveal">Open a <em>channel.</em></h2>
+            <h2 class="split">Contact</h2>
             <p class="contact-copy reveal">
-              Collaborations, security research or a good conversation. My inbox is always listening.
+              Want to work together, talk about security research, or just say hi?
+              Send me a message and I will get back to you.
             </p>
 
-            <ul class="social-links reveal">
-              <li><a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span class="soc-name">GitHub</span><span class="soc-handle">@jahanzaibmir</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer"><span class="soc-name">LinkedIn</span><span class="soc-handle">jahanzaib-ashraf-mir</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://x.com/Jahanzaib1318" target="_blank" rel="noopener noreferrer"><span class="soc-name">X</span><span class="soc-handle">@Jahanzaib1318</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.instagram.com/jahanzaibmir_" target="_blank" rel="noopener noreferrer"><span class="soc-name">Instagram</span><span class="soc-handle">@jahanzaibmir_</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.youtube.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span class="soc-name">YouTube</span><span class="soc-handle">jahanzaibmir</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+            <ul class="socials reveal">
+              <li><a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+              <li><a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+              <li><a href="https://x.com/Jahanzaib1318" target="_blank" rel="noopener noreferrer"><span>X (Twitter)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+              <li><a href="https://www.instagram.com/jahanzaibmir_" target="_blank" rel="noopener noreferrer"><span>Instagram</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+              <li><a href="https://www.youtube.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>YouTube</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
             </ul>
           </div>
 
-          <div class="form-card reveal">
-            <form id="contact-form" novalidate>
-              <!-- Get a free key at https://web3forms.com and paste it here -->
-              <input type="hidden" name="access_key" value="58da922f-c7f2-4982-9c9a-0ca248c07ac7" />
-              <input type="hidden" name="subject" value="New portfolio contact" />
-              <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="win-wrap win">
+            <div class="window form-window">
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  New message
+                </span>
+                <span class="win-ctrl">
+                  <button type="button" class="c-min" data-win="min" aria-label="Minimize message window"></button>
+                  <button type="button" class="c-max" data-win="max" aria-label="Maximize message window"></button>
+                  <button type="button" class="c-close" data-win="close" aria-label="Close message window"></button>
+                </span>
+              </div>
+              <div class="win-content">
+                <form id="contact-form" class="win-body" novalidate>
+                  <input type="hidden" name="access_key" value="58da922f-c7f2-4982-9c9a-0ca248c07ac7" />
+                  <input type="hidden" name="subject" value="New message from your portfolio" />
+                  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-              <div class="field">
-                <input type="text" id="f-name" name="name" placeholder=" " autocomplete="name" required maxlength="100" />
-                <label for="f-name">Your name</label>
-              </div>
-              <div class="field">
-                <input type="email" id="f-email" name="email" placeholder=" " autocomplete="email" required maxlength="200" />
-                <label for="f-email">Email address</label>
-              </div>
-              <div class="field">
-                <textarea id="f-message" name="message" rows="5" placeholder=" " required maxlength="5000"></textarea>
-                <label for="f-message">Message</label>
-              </div>
+                  <div class="field">
+                    <label for="f-name">Name</label>
+                    <input type="text" id="f-name" name="name" autocomplete="name" required maxlength="100" />
+                  </div>
+                  <div class="field">
+                    <label for="f-email">Email</label>
+                    <input type="email" id="f-email" name="email" autocomplete="email" required maxlength="200" />
+                  </div>
+                  <div class="field">
+                    <label for="f-message">Message</label>
+                    <textarea id="f-message" name="message" rows="5" required maxlength="5000"></textarea>
+                  </div>
 
-              <button type="submit" class="btn btn-solid submit-btn">
-                <span class="btn-label">Send message</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </button>
-              <p id="form-status" role="status" aria-live="polite"></p>
-            </form>
+                  <button type="submit" class="btn btn-solid submit-btn"><span class="btn-label">Send message</span></button>
+                  <p id="form-status" role="status" aria-live="polite"></p>
+                </form>
+              </div>
+            </div>
+            <button type="button" class="win-reopen" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              Write a new message
+            </button>
           </div>
         </div>
       </section>
 
       <footer class="footer">
-        <div class="footer-top">
-          <p class="footer-big">Jahanzaib Ashraf <em>Mir</em></p>
-          <a href="#hero" class="to-top" aria-label="Back to top">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-          </a>
-        </div>
-        <div class="footer-bottom">
-          <p>Designed &amp; engineered by Jahanzaib Ashraf Mir</p>
-          <p>© <span id="year">2026</span>. All rights reserved.</p>
-        </div>
+        <p>© <span id="year">2026</span> Jahanzaib Ashraf Mir</p>
+        <a href="#hero" class="to-top">Back to top
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        </a>
       </footer>
     </main>
 
     <script>
-      // Safety net: never leave the intro curtain up if main.js fails to load
+      // Safety net: never leave the boot screen up if main.js fails to load
       setTimeout(function () {
-        document.body.classList.add('loaded');
-        document.body.classList.remove('is-loading');
-        document.querySelectorAll('.reveal').forEach(function (el) {
-          if (!window.__revealReady) el.classList.add('visible');
-        });
-      }, 4000);
+        var b = document.body;
+        b.classList.add('intro-out', 'loaded');
+        b.classList.remove('is-loading');
+        if (!window.__revealReady) {
+          document.querySelectorAll('.reveal, .win, .split').forEach(function (el) { el.classList.add('visible'); });
+        }
+      }, 7000);
     </script>
-    <noscript><style>.intro{display:none}body.is-loading [data-hero],.reveal{opacity:1!important;transform:none!important}</style></noscript>
+    <noscript><style>.intro,.cursor-ring{display:none}body.is-loading main,body.is-loading [data-hero],.reveal,.win>*{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
   </body>
 </html>
