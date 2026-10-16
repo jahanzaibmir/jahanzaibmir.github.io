@@ -1,265 +1,158 @@
-import * as THREE from 'three';
-
+// Jahanzaib Ashraf Mir — Portfolio
+// UI runs first and never depends on three.js; the WebGL backdrop is
+// loaded lazily so a CDN hiccup can't take the rest of the site down.
 
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const motionScale = prefersReduced ? 0 : 1;
-const isMobile = () => window.innerWidth < 768;
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const isMobile = () => window.innerWidth < 860;
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 400);
-const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector('#bg'),
-  alpha: true,
-  antialias: true
+/* ---------- Intro / page load ---------- */
+
+const startedAt = performance.now();
+const MIN_INTRO = prefersReduced ? 0 : 1250;
+
+function finishIntro() {
+  if (document.body.classList.contains('loaded')) return;
+  document.body.classList.add('loaded');
+  // let the curtain begin lifting before the hero copy rises
+  setTimeout(() => document.body.classList.remove('is-loading'), prefersReduced ? 0 : 350);
+}
+
+Promise.race([
+  document.fonts ? document.fonts.ready : Promise.resolve(),
+  new Promise((r) => setTimeout(r, 2500))
+]).then(() => {
+  const wait = Math.max(0, MIN_INTRO - (performance.now() - startedAt));
+  setTimeout(finishIntro, wait);
 });
 
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(34);
+/* ---------- Footer year ---------- */
 
-// Paper-colored fog: far objects melt into the background = real depth
-scene.fog = new THREE.Fog(0xfbfaf6, 45, 160);
+const yearEl = $('#year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Everything lives in one world group so scrolling rotates the whole world
-const worldGroup = new THREE.Group();
-scene.add(worldGroup);
+/* ---------- Scroll-driven state (single rAF-throttled handler) ---------- */
 
-// Studio lighting — warm key, cool blue fill
-const hemi = new THREE.HemisphereLight(0xffffff, 0xd8cfc0, 1.15);
-scene.add(hemi);
-
-const keyLight = new THREE.DirectionalLight(0xfff6e9, 1.7);
-keyLight.position.set(-15, 22, 12);
-scene.add(keyLight);
-
-const blueFill = new THREE.PointLight(0x3d6bd8, 60, 160);
-blueFill.position.set(-26, -6, -4);
-scene.add(blueFill);
-
-const warmFill = new THREE.PointLight(0xead9b7, 35, 160);
-warmFill.position.set(26, 12, -12);
-scene.add(warmFill);
-
-// ---- Porcelain centerpiece + orbital system ----
-const knotGroup = new THREE.Group();
-worldGroup.add(knotGroup);
-
-const knot = new THREE.Mesh(
-  new THREE.TorusKnotGeometry(9, 2.6, 220, 36),
-  new THREE.MeshPhysicalMaterial({
-    color: 0xf3eee3,
-    roughness: 0.32,
-    metalness: 0.04,
-    clearcoat: 0.55,
-    clearcoatRoughness: 0.28
-  })
-);
-knotGroup.add(knot);
-
-// Faint wireframe shell enclosing the centerpiece
-const shell = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(16.5, 1),
-  new THREE.MeshBasicMaterial({ color: 0x1b2a4a, wireframe: true, transparent: true, opacity: 0.07 })
-);
-knotGroup.add(shell);
-
-// Three tilted orbit rings (ink / cobalt / bronze)
-const ringHolders = [];
-function addRing(radius, color, opacity, tiltX, tiltZ, spin) {
-  const points = new THREE.EllipseCurve(0, 0, radius, radius).getPoints(128);
-  const ring = new THREE.LineLoop(
-    new THREE.BufferGeometry().setFromPoints(points),
-    new THREE.LineBasicMaterial({ color, transparent: true, opacity })
-  );
-  const holder = new THREE.Group();
-  holder.rotation.set(tiltX, 0, tiltZ);
-  holder.add(ring);
-  holder.userData.spin = spin;
-  knotGroup.add(holder);
-  ringHolders.push(holder);
-}
-addRing(21, 0x1b2a4a, 0.16, 1.15, 0.2, 0.05);
-addRing(26, 0x3d6bd8, 0.2, 1.45, -0.3, -0.035);
-addRing(31, 0xc0a878, 0.14, 0.8, 0.55, 0.025);
-
-// Orbiting satellites
-const satellites = [];
-function addSatellite(geo, color, radius, speed, inclination, roughness = 0.4) {
-  const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
-    color, roughness, metalness: 0.15, flatShading: true
-  }));
-  mesh.userData = { radius, speed, incline: inclination, angle: Math.random() * Math.PI * 2 };
-  knotGroup.add(mesh);
-  satellites.push(mesh);
-}
-addSatellite(new THREE.IcosahedronGeometry(2.1, 0), 0x3d6bd8, 20, 0.22, 0.35);
-addSatellite(new THREE.TorusGeometry(3, 0.85, 12, 28), 0x1b2a4a, 26, -0.16, -0.5);
-addSatellite(new THREE.OctahedronGeometry(1.7, 0), 0xc0a878, 17, 0.3, 1.1, 0.5);
-
-// ---- Floating shape field — depth-scattered mini solids ----
-const floaterGeos = [
-  new THREE.BoxGeometry(1.6, 1.6, 1.6),
-  new THREE.OctahedronGeometry(1.2, 0),
-  new THREE.TetrahedronGeometry(1.4, 0),
-  new THREE.TorusGeometry(1, 0.35, 10, 20),
-  new THREE.SphereGeometry(0.95, 16, 16)
-];
-const floaterPalette = [0x1b2a4a, 0x3d6bd8, 0xc0a878, 0xd8cfbc, 0xffffff];
-const floaters = [];
-const floaterCount = isMobile() ? 7 : 14;
-
-for (let i = 0; i < floaterCount; i++) {
-  const geo = floaterGeos[i % floaterGeos.length];
-  const isSphere = geo.type === 'SphereGeometry';
-  const mat = new THREE.MeshStandardMaterial({
-    color: floaterPalette[i % floaterPalette.length],
-    roughness: 0.5,
-    metalness: 0.1,
-    flatShading: !isSphere
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(
-    (Math.random() - 0.5) * 125,
-    (Math.random() - 0.5) * 58,
-    -12 - Math.random() * 70
-  );
-  const scale = 0.5 + Math.random() * 1.3;
-  mesh.scale.setScalar(scale);
-  mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-  mesh.userData = {
-    baseY: mesh.position.y,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.3 + Math.random() * 0.5,
-    amp: 0.8 + Math.random() * 1.4,
-    rx: (Math.random() - 0.5) * 0.012,
-    ry: (Math.random() - 0.5) * 0.012
-  };
-  worldGroup.add(mesh);
-  floaters.push(mesh);
-}
-
-// Distant monolith — huge sand dodecahedron swallowed by fog
-const monolith = new THREE.Mesh(
-  new THREE.DodecahedronGeometry(9, 0),
-  new THREE.MeshStandardMaterial({ color: 0xd8cfbc, roughness: 0.6, flatShading: true })
-);
-monolith.position.set(-48, 10, -85);
-worldGroup.add(monolith);
-
-// ---- Dust — two parallax layers of fine specks ----
-function makeDust(count, size, opacity, spread) {
-  const pos = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * spread;
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  return new THREE.Points(geo, new THREE.PointsMaterial({
-    size, color: 0x8b93a3, transparent: true, opacity
-  }));
-}
-const dustNear = makeDust(isMobile() ? 130 : 260, 0.5, 0.35, 160);
-const dustFar = makeDust(isMobile() ? 200 : 420, 0.3, 0.22, 230);
-dustFar.position.z = -60;
-worldGroup.add(dustNear, dustFar);
-
-// Layout: centerpiece sits right of the hero copy on desktop,
-// floats behind the text on mobile (canvas dimmed via CSS)
-let knotBaseY = 1;
-function layoutScene() {
-  if (isMobile()) {
-    knotGroup.position.set(0, 4, -10);
-    knotGroup.scale.setScalar(0.7);
-  } else {
-    knotGroup.position.set(15, 1, 0);
-    knotGroup.scale.setScalar(1);
-  }
-  knotBaseY = knotGroup.position.y;
-}
-layoutScene();
-
-// Interaction state
-let mouseX = 0, mouseY = 0;
+const navbar = $('#navbar');
+const progressEl = $('.progress');
+let lastY = window.scrollY;
+let ticking = false;
 let scrollY = window.scrollY;
 
-document.addEventListener('mousemove', (e) => {
-  mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-  mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-});
-window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+function onScroll() {
+  scrollY = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progressEl.style.setProperty('--progress', max > 0 ? (scrollY / max).toFixed(4) : 0);
 
-const clock = new THREE.Clock();
-
-function animate() {
-  requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-
-  // Centerpiece: spin + gentle bob around its anchored height
-  knot.rotation.x = t * 0.16 * motionScale;
-  knot.rotation.y = t * 0.22 * motionScale;
-  knotGroup.position.y = knotBaseY + Math.sin(t * 0.6) * 0.9 * motionScale;
-  shell.rotation.x = -t * 0.05 * motionScale;
-  shell.rotation.y = t * 0.06 * motionScale;
-
-  ringHolders.forEach((h) => { h.rotation.y = t * h.userData.spin * motionScale; });
-
-  satellites.forEach((s) => {
-    const d = s.userData;
-    d.angle += d.speed * 0.01 * motionScale;
-    s.position.set(
-      Math.cos(d.angle) * d.radius,
-      Math.sin(d.angle) * d.radius * Math.sin(d.incline),
-      Math.sin(d.angle) * d.radius * Math.cos(d.incline)
-    );
-    s.rotation.x += 0.004 * motionScale;
-    s.rotation.y += 0.005 * motionScale;
-  });
-
-  // Floating field: each solid bobs and tumbles on its own clock
-  floaters.forEach((f) => {
-    const d = f.userData;
-    f.position.y = d.baseY + Math.sin(t * d.speed + d.phase) * d.amp * motionScale;
-    f.rotation.x += d.rx * motionScale;
-    f.rotation.y += d.ry * motionScale;
-  });
-  monolith.rotation.y = t * 0.03 * motionScale;
-
-  // Scrolling turns the whole world; the camera dollies in
-  const targetRot = scrollY * 0.00035;
-  worldGroup.rotation.y += (targetRot - worldGroup.rotation.y) * 0.05;
-  worldGroup.rotation.x = Math.sin(t * 0.08) * 0.015 * motionScale;
-
-  camera.position.x += (mouseX * 5 - camera.position.x) * 0.03;
-  camera.position.y += (mouseY * 3.5 - camera.position.y) * 0.03;
-  camera.position.z = 34 - Math.min(scrollY * 0.005, 10);
-  camera.lookAt(isMobile() ? 0 : 5, 0, 0);
-
-  dustNear.rotation.y = t * 0.01 * motionScale;
-  dustFar.rotation.y = -t * 0.006 * motionScale;
-
-  renderer.render(scene, camera);
+  navbar.classList.toggle('scrolled', scrollY > 24);
+  const menuOpen = document.body.classList.contains('menu-open');
+  if (!menuOpen) {
+    const goingDown = scrollY > lastY;
+    navbar.classList.toggle('hidden', goingDown && scrollY > 480);
+  }
+  lastY = scrollY;
+  ticking = false;
 }
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    ticking = true;
+    requestAnimationFrame(onScroll);
+  }
+}, { passive: true });
+onScroll();
 
-window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  layoutScene();
-});
+// Reveal the nav whenever keyboard focus lands in it
+navbar.addEventListener('focusin', () => navbar.classList.remove('hidden'));
 
-animate();
+/* ---------- Active nav link ---------- */
 
-//3d card tilt
-
-if (window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReduced) {
-  document.querySelectorAll('.project-card').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transform = `translateY(-6px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg)`;
+const navAnchors = $$('.nav-links a');
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const id = entry.target.id;
+    navAnchors.forEach((a) => {
+      const on = a.getAttribute('href') === `#${id}`;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
     });
-    card.addEventListener('pointerleave', () => { card.style.transform = ''; });
   });
+}, { rootMargin: '-45% 0px -50% 0px' });
+$$('section[id], header#hero').forEach((s) => sectionObserver.observe(s));
+
+/* ---------- Mobile menu ---------- */
+
+const menuToggle = $('#menu-toggle');
+const navLinks = $('#nav-links');
+
+function setMenu(open) {
+  navLinks.classList.toggle('open', open);
+  menuToggle.classList.toggle('open', open);
+  document.body.classList.toggle('menu-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  if (open) navbar.classList.remove('hidden');
 }
+menuToggle.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
+navLinks.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+    setMenu(false);
+    menuToggle.focus();
+  }
+});
+window.addEventListener('resize', () => { if (!isMobile()) setMenu(false); });
+
+/* ---------- Reveal on scroll ---------- */
+
+window.__revealReady = true;
+const revealEls = $$('.reveal');
+// Stagger siblings that share a parent so groups cascade in
+const groups = new Map();
+revealEls.forEach((el) => {
+  const idx = groups.get(el.parentElement) ?? 0;
+  el.style.setProperty('--d', `${Math.min(idx, 5) * 90}ms`);
+  groups.set(el.parentElement, idx + 1);
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('visible');
+    revealObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+revealEls.forEach((el) => revealObserver.observe(el));
+
+/* ---------- Count-up stats ---------- */
+
+function countUp(el) {
+  const target = parseInt(el.dataset.count, 10);
+  if (prefersReduced || !Number.isFinite(target)) return;
+  const dur = 1200;
+  const t0 = performance.now();
+  const step = (now) => {
+    const p = Math.min((now - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = String(Math.round(target * eased)).padStart(2, '0');
+    if (p < 1) requestAnimationFrame(step);
+  };
+  el.textContent = '00';
+  requestAnimationFrame(step);
+}
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    countUp(entry.target);
+    statObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.6 });
+$$('[data-count]').forEach((el) => statObserver.observe(el));
+
+/* ---------- Typing line ---------- */
 
 const roles = [
   'offensive security',
@@ -268,184 +161,407 @@ const roles = [
   'computer networking',
   'malware research',
   'defensive engineering',
-  'cybersecurity research',
   'bug bounty'
 ];
-const typedEl = document.getElementById('typed');
+const typedEl = $('#typed');
 
-function typeLoop(text, i = 0, deleting = false) {
-  if (prefersReduced) { typedEl.textContent = roles[0]; return; }
-  const current = roles[(text + roles.length) % roles.length]; // no-op guard
-  if (!deleting) {
-    typedEl.textContent = current.slice(0, i);
-    if (i <= current.length) {
-      setTimeout(() => typeLoop(text, i + 1, false), 55);
-    } else {
-      setTimeout(() => typeLoop(text, i, true), 1800);
+function typeLoop() {
+  if (!typedEl || prefersReduced) return;
+  let r = 0, i = roles[0].length, deleting = true;
+  const tick = () => {
+    const word = roles[r];
+    if (deleting) {
+      i--;
+      typedEl.textContent = word.slice(0, i);
+      if (i <= 0) {
+        deleting = false;
+        r = (r + 1) % roles.length;
+        return setTimeout(tick, 380);
+      }
+      return setTimeout(tick, 28);
     }
-  } else {
-    typedEl.textContent = current.slice(0, Math.max(i - 1, 0));
-    if (i > 0) {
-      setTimeout(() => typeLoop(text, i - 1, true), 26);
-    } else {
-      setTimeout(() => typeLoop((text + 1) % roles.length, 0, false), 400);
+    i++;
+    typedEl.textContent = roles[r].slice(0, i);
+    if (i >= roles[r].length) {
+      deleting = true;
+      return setTimeout(tick, 2200);
     }
-  }
+    setTimeout(tick, 60 + Math.random() * 40);
+  };
+  setTimeout(tick, 2600);
 }
-typeLoop(0);
+typeLoop();
 
-
+/* ---------- Terminal ---------- */
 
 const termLines = [
-  { html: '<span class="cmd">~ $</span> <span class="cmd">whoami</span>', delay: 300 },
-  { html: '<span class="out">jahanzaib ashraf mir cybersecurity engineer and reseacher</span>', delay: 500 },
-  { html: '<span class="cmd">~ $</span> <span class="dir">uname</span> <span class="cmd">-a</span>', delay: 650 },
-  { html: '<span class="out">curiosity 6.2 kernel-up x86_64 SRM-AP</span>', delay: 500 },
-  { html: '<span class="cmd">~ $</span> <span class="cmd">./focus --list</span>', delay: 650 },
-  { html: '<span class="hl">[+] low level programming</span>', delay: 260 },
-  { html: '<span class="hl">[+] computer networking</span>', delay: 260 },
-  { html: '<span class="hl">[+] offensive / defensive security / bug bounty</span>', delay: 260 },
-  { html: '<span class="cmd">~ $</span> <span class="cmd">echo $MISSION</span>', delay: 700 },
-  { html: '<span class="out">"build & safeguard scalable systems — from the kernel up."</span>', delay: 500 }
+  { html: '<span class="ps">~ $</span> <span class="cmd">whoami</span>', delay: 420 },
+  { html: '<span class="out">jahanzaib ashraf mir — cybersecurity engineer &amp; researcher</span>', delay: 520 },
+  { html: '<span class="ps">~ $</span> <span class="cmd">uname</span> <span class="arg">-a</span>', delay: 620 },
+  { html: '<span class="out">curiosity 6.2.0-kernel-up x86_64 SRM-AP</span>', delay: 520 },
+  { html: '<span class="ps">~ $</span> <span class="cmd">./focus</span> <span class="arg">--list</span>', delay: 620 },
+  { html: '<span class="hl"><b>[+]</b> low-level programming</span>', delay: 240 },
+  { html: '<span class="hl"><b>[+]</b> computer networking</span>', delay: 240 },
+  { html: '<span class="hl"><b>[+]</b> offensive / defensive security</span>', delay: 240 },
+  { html: '<span class="hl"><b>[+]</b> bug bounty</span>', delay: 240 },
+  { html: '<span class="ps">~ $</span> <span class="cmd">echo</span> <span class="arg">$MISSION</span>', delay: 680 },
+  { html: '<span class="out">"build &amp; safeguard scalable systems — from the kernel up."</span>', delay: 520 }
 ];
+const promptLine = '<span class="ps">~ $</span> <span class="cursor"></span>';
 
 function runTerminal() {
-  const body = document.getElementById('terminal-body');
+  const body = $('#terminal-body');
   if (!body) return;
   if (prefersReduced) {
-    body.innerHTML = termLines.map(l => `<div>${l.html}</div>`).join('');
+    body.innerHTML = [...termLines.map((l) => l.html), promptLine].map((h) => `<div>${h}</div>`).join('');
     return;
   }
   let i = 0;
-  function nextLine() {
+  const next = () => {
+    const div = document.createElement('div');
     if (i >= termLines.length) {
-      body.insertAdjacentHTML('beforeend', '<div><span class="cmd">~ $</span> <span class="cursor"></span></div>');
+      div.innerHTML = promptLine;
+      body.appendChild(div);
       return;
     }
-    const div = document.createElement('div');
     div.innerHTML = termLines[i].html;
     body.appendChild(div);
-    i++;
-    setTimeout(nextLine, termLines[i - 1].delay);
-  }
-  nextLine();
-}
-
-
-// IntersectionObserver alone can miss elements when the page jumps
-// past them (keyboard, anchor links); this fallback also fires for
-// anything already above the viewport.
-function onEnterViewport(el, fn, threshold = 0.12) {
-  let done = false;
-  const trigger = () => {
-    if (done) return;
-    done = true;
-    fn();
+    setTimeout(next, termLines[i++].delay);
   };
-  const check = () => {
-    if (done) return;
-    const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight - r.height * threshold || r.bottom <= 0) trigger();
-  };
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        trigger();
-        io.disconnect();
-      }
-    });
-  }, { threshold });
-  io.observe(el);
-  window.addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
-  check();
+  next();
 }
-
-const revealEls = document.querySelectorAll('.reveal');
-revealEls.forEach((el, i) => {
-  el.style.transitionDelay = `${(i % 3) * 90}ms`;
-  onEnterViewport(el, () => el.classList.add('visible'));
-});
-
-const termEl = document.getElementById('terminal');
-if (termEl) onEnterViewport(termEl, runTerminal, 0.05);
-
-const sections = document.querySelectorAll('section, header#hero');
-const navAnchors = document.querySelectorAll('.nav-links a');
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute('id');
-      navAnchors.forEach((a) => {
-        a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
-      });
+const termEl = $('#terminal');
+if (termEl) {
+  const termObserver = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      termObserver.disconnect();
+      setTimeout(runTerminal, prefersReduced ? 0 : 400);
     }
+  }, { threshold: 0.3 });
+  termObserver.observe(termEl);
+}
+
+/* ---------- Pointer niceties (desktop only) ---------- */
+
+if (finePointer && !prefersReduced) {
+  // Spotlight that follows the cursor across project rows
+  $$('.project-link').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
   });
-}, { rootMargin: '-45% 0px -50% 0px' });
-sections.forEach((s) => sectionObserver.observe(s));
 
-
-
-const menuToggle = document.getElementById('menu-toggle');
-const navLinks = document.getElementById('nav-links');
-
-menuToggle.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  menuToggle.classList.toggle('open', open);
-  menuToggle.setAttribute('aria-expanded', open);
-  menuToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-});
-navLinks.querySelectorAll('a').forEach((a) => {
-  a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    menuToggle.classList.remove('open');
-    menuToggle.setAttribute('aria-expanded', 'false');
+  // Gentle magnetic pull on primary buttons
+  $$('[data-magnetic]').forEach((el) => {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) * 0.18;
+      const y = (e.clientY - r.top - r.height / 2) * 0.28;
+      el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+    });
+    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
   });
+}
+
+/* ---------- Contact form (Web3Forms) ---------- */
+
+const form = $('#contact-form');
+const statusEl = $('#form-status');
+const submitBtn = form.querySelector('.submit-btn');
+const btnLabel = submitBtn.querySelector('.btn-label');
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function setStatus(msg, kind = '') {
+  statusEl.className = kind;
+  statusEl.innerHTML = msg;
+}
+
+function validate() {
+  let firstBad = null;
+  form.querySelectorAll('.field').forEach((f) => {
+    const input = f.querySelector('input, textarea');
+    const v = input.value.trim();
+    const ok = v.length > 0 && (input.type !== 'email' || EMAIL_RE.test(v));
+    f.classList.toggle('invalid', !ok);
+    input.setAttribute('aria-invalid', String(!ok));
+    if (!ok && !firstBad) firstBad = input;
+  });
+  return firstBad;
+}
+
+form.addEventListener('input', (e) => {
+  const field = e.target.closest('.field');
+  if (field && field.classList.contains('invalid')) {
+    field.classList.remove('invalid');
+    e.target.removeAttribute('aria-invalid');
+  }
 });
 
-
-   // CONTACT FORM (Web3Forms)
- 
-
-const contactForm = document.getElementById('contact-form');
-const formStatus = document.getElementById('form-status');
-
-contactForm.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  const submitBtn = contactForm.querySelector('.submit-btn');
-  submitBtn.innerText = 'Transmitting…';
-  submitBtn.disabled = true;
-  formStatus.innerText = '';
-
-  const formData = new FormData(contactForm);
-
-  if (formData.get('access_key') === 'YOUR_ACCESS_KEY_HERE') {
-    formStatus.style.color = '#B3423A';
-    formStatus.innerText = 'Owner: set your Web3Forms access key to enable this form.';
-    submitBtn.innerText = 'Transmit Message';
-    submitBtn.disabled = false;
+  const bad = validate();
+  if (bad) {
+    setStatus('Please fill in every field with a valid email address.', 'err');
+    bad.focus();
     return;
   }
 
+  const data = Object.fromEntries(new FormData(form));
+  if (data.botcheck) return; // honeypot tripped
+  delete data.botcheck;
+
+  if (!data.access_key || data.access_key === 'YOUR_ACCESS_KEY_HERE') {
+    setStatus(
+      'The form is offline right now. Please reach me on ' +
+      '<a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer">LinkedIn</a>.',
+      'err'
+    );
+    return;
+  }
+
+  submitBtn.disabled = true;
+  btnLabel.textContent = 'Sending…';
+  setStatus('');
+
+  const ctrl = new AbortController();
+  const timeout = setTimeout(() => ctrl.abort(), 15000);
   try {
-    const response = await fetch('https://api.web3forms.com/submit', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(Object.fromEntries(formData))
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data),
+      signal: ctrl.signal
     });
-    const result = await response.json();
-    if (result.success) {
-      formStatus.style.color = '#2F7D4F';
-      formStatus.innerText = 'Message transmitted successfully.';
-      contactForm.reset();
-    } else {
-      throw new Error(result.message);
-    }
-  } catch (error) {
-    formStatus.style.color = '#B3423A';
-    formStatus.innerText = 'Transmission failed please retry.';
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok || !result.success) throw new Error(result.message || res.statusText);
+    setStatus('Message sent. I\'ll get back to you soon.', 'ok');
+    form.reset();
+  } catch {
+    setStatus('Something went wrong sending your message. Please try again.', 'err');
   } finally {
-    submitBtn.innerText = 'Transmit Message';
+    clearTimeout(timeout);
     submitBtn.disabled = false;
+    btnLabel.textContent = 'Send message';
   }
 });
+
+/* ---------- WebGL backdrop ---------- */
+
+const canvas = $('#bg');
+if (canvas) {
+  import('three')
+    .then((THREE) => initScene(THREE, canvas))
+    .catch(() => { /* backdrop is decorative; the page works without it */ });
+}
+
+function initScene(THREE, canvas) {
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+  } catch {
+    return;
+  }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300);
+  camera.position.set(0, 0, 46);
+
+  // Soft round sprite for every point
+  const sprite = (() => {
+    const c = document.createElement('canvas');
+    c.width = c.height = 64;
+    const g = c.getContext('2d');
+    const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.45, 'rgba(255,255,255,0.85)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 64, 64);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  })();
+
+  const world = new THREE.Group();
+  scene.add(world);
+
+  // Centerpiece: Fibonacci point-sphere with a faint geodesic shell
+  const centre = new THREE.Group();
+  world.add(centre);
+
+  const SPHERE_N = isMobile() ? 1100 : 2200;
+  const R = 13;
+  const base = new Float32Array(SPHERE_N * 3);
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < SPHERE_N; i++) {
+    const y = 1 - (i / (SPHERE_N - 1)) * 2;
+    const rad = Math.sqrt(1 - y * y);
+    const th = golden * i;
+    base[i * 3] = Math.cos(th) * rad * R;
+    base[i * 3 + 1] = y * R;
+    base[i * 3 + 2] = Math.sin(th) * rad * R;
+  }
+  const sphereGeo = new THREE.BufferGeometry();
+  const spherePos = new Float32Array(base);
+  sphereGeo.setAttribute('position', new THREE.BufferAttribute(spherePos, 3));
+  const sphere = new THREE.Points(sphereGeo, new THREE.PointsMaterial({
+    size: 0.26, map: sprite, color: 0xcbd5e1, transparent: true, opacity: 0.85,
+    depthWrite: false, sizeAttenuation: true
+  }));
+  centre.add(sphere);
+
+  const shell = new THREE.LineSegments(
+    new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(R * 0.62, 1)),
+    new THREE.LineBasicMaterial({ color: 0x64748b, transparent: true, opacity: 0.22 })
+  );
+  centre.add(shell);
+
+  // Two thin orbit rings
+  const rings = [];
+  [[R * 1.45, 1.2, 0.3, 0.18], [R * 1.75, 1.42, -0.42, 0.11]].forEach(([radius, tx, tz, op]) => {
+    const pts = new THREE.EllipseCurve(0, 0, radius, radius).getPoints(180);
+    const ring = new THREE.LineLoop(
+      new THREE.BufferGeometry().setFromPoints(pts),
+      new THREE.LineBasicMaterial({ color: 0x94a3b8, transparent: true, opacity: op })
+    );
+    const holder = new THREE.Group();
+    holder.rotation.set(tx, 0, tz);
+    holder.add(ring);
+
+    // a single node travelling each ring
+    const node = new THREE.Mesh(
+      new THREE.SphereGeometry(0.28, 12, 12),
+      new THREE.MeshBasicMaterial({ color: 0xeceef1 })
+    );
+    holder.add(node);
+    holder.userData = { radius, node, speed: rings.length ? -0.09 : 0.14, offset: rings.length * 2 };
+    centre.add(holder);
+    rings.push(holder);
+  });
+
+  // Deep dust field for parallax
+  const DUST_N = isMobile() ? 350 : 800;
+  const dustPos = new Float32Array(DUST_N * 3);
+  for (let i = 0; i < DUST_N; i++) {
+    dustPos[i * 3] = (Math.random() - 0.5) * 200;
+    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 120;
+    dustPos[i * 3 + 2] = -20 - Math.random() * 120;
+  }
+  const dustGeo = new THREE.BufferGeometry();
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+    size: 0.35, map: sprite, color: 0x64748b, transparent: true, opacity: 0.5, depthWrite: false
+  }));
+  world.add(dust);
+
+  function layout() {
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    if (isMobile()) {
+      centre.position.set(0, 6, -8);
+      centre.scale.setScalar(0.85);
+    } else {
+      // keep the sphere in the right third of the viewport
+      const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
+      centre.position.set(halfW * 0.5, 0, 0);
+      centre.scale.setScalar(1);
+    }
+  }
+  layout();
+
+  let resizeRaf = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(layout);
+  });
+
+  let mx = 0, my = 0;
+  if (finePointer) {
+    window.addEventListener('pointermove', (e) => {
+      mx = (e.clientX / window.innerWidth) * 2 - 1;
+      my = (e.clientY / window.innerHeight) * 2 - 1;
+    }, { passive: true });
+  }
+
+  const motion = prefersReduced ? 0 : 1;
+  const clock = new THREE.Clock();
+  let running = true;
+  let rafId = 0;
+  let lastOpacity = -1;
+
+  function frame() {
+    if (!running) return;
+    rafId = requestAnimationFrame(frame);
+    const t = clock.getElapsedTime() * motion;
+    const vh = window.innerHeight;
+    const s = Math.min(scrollY / vh, 3);
+
+    // a slow surface ripple across the point sphere
+    if (motion) {
+      for (let i = 0; i < SPHERE_N; i++) {
+        const ix = i * 3;
+        const bx = base[ix], by = base[ix + 1], bz = base[ix + 2];
+        const k = 1 + Math.sin(by * 0.35 + t * 0.9) * Math.cos(bx * 0.3 + t * 0.6) * 0.035;
+        spherePos[ix] = bx * k;
+        spherePos[ix + 1] = by * k;
+        spherePos[ix + 2] = bz * k;
+      }
+      sphereGeo.attributes.position.needsUpdate = true;
+    }
+
+    sphere.rotation.y = t * 0.06;
+    sphere.rotation.x = Math.sin(t * 0.1) * 0.15;
+    shell.rotation.y = -t * 0.04;
+    shell.rotation.z = t * 0.025;
+
+    rings.forEach((h) => {
+      const d = h.userData;
+      const a = t * d.speed + d.offset;
+      d.node.position.set(Math.cos(a) * d.radius, Math.sin(a) * d.radius, 0);
+    });
+
+    // scroll: the sphere drifts up and turns; dust slides for depth
+    centre.rotation.y = s * 0.6;
+    centre.rotation.x = s * 0.15;
+    world.position.y = s * 6;
+    dust.rotation.y = t * 0.004;
+
+    camera.position.x += (mx * 2.4 - camera.position.x) * 0.035;
+    camera.position.y += (-my * 1.6 - camera.position.y) * 0.035;
+    camera.lookAt(0, world.position.y * 0.2, 0);
+
+    // fade the backdrop once the hero is behind us so content stays legible
+    const op = Math.max(0.28, 1 - s * 0.72).toFixed(3);
+    if (op !== lastOpacity) {
+      canvas.style.setProperty('--bg-opacity', op);
+      lastOpacity = op;
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) {
+      clock.getDelta();
+      cancelAnimationFrame(rafId);
+      frame();
+    }
+  });
+
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    running = false;
+    cancelAnimationFrame(rafId);
+  });
+
+  frame();
+  requestAnimationFrame(() => canvas.classList.add('ready'));
+}
