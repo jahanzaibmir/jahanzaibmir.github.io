@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/intro.css" />
+    <link rel="stylesheet" href="css/cards.css" />
     <link rel="stylesheet" href="css/nav.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/scene.css" />
@@ -63,6 +64,8 @@
     <link rel="modulepreload" href="js/form.js" />
     <link rel="modulepreload" href="js/scrub.js" />
     <link rel="modulepreload" href="js/reveal.js" />
+    <link rel="modulepreload" href="js/cards.js" />
+    <link rel="modulepreload" href="js/lib/scramble.js" />
     <script type="module" src="js/main.js"></script>
   </head>
 
@@ -85,6 +88,29 @@
       <p class="intro-hint">Click or press any key to skip</p>
     </div>
 
+    <!-- Section card: shown first whenever a section is picked from the menu -->
+    <div class="card" id="card" aria-hidden="true">
+      <div class="card-stage">
+        <canvas class="card-scene"></canvas>
+        <div class="card-inner">
+          <div class="card-top">
+            <p class="card-num"><span class="card-num-now">01</span> / 04</p>
+            <p class="card-owner">Jahanzaib Ashraf Mir</p>
+          </div>
+          <div class="card-object"></div>
+          <div class="card-text">
+            <p class="card-title"></p>
+            <p class="card-line"></p>
+          </div>
+          <div class="card-foot">
+            <div class="boot-dots card-dots"><i></i><i></i><i></i><i></i><i></i></div>
+            <p class="card-shape"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-edge" aria-hidden="true"></div>
+
     <!-- Background layers: colour, the 4D scene and its label -->
     <div class="backdrop" aria-hidden="true"></div>
     <canvas class="scene" aria-hidden="true"></canvas>
@@ -98,7 +124,7 @@
       <div class="nav-inner">
         <a class="brand" href="#top" aria-label="Jahanzaib Ashraf Mir, back to top">
           <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 64 64"><path d="M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28" /></svg>
+            <svg viewBox="0 0 64 64"><path pathLength="1" d="M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28" /></svg>
           </span>
           <span class="brand-name">Jahanzaib Ashraf Mir</span>
         </a>
@@ -172,7 +198,7 @@
       <!-- About -->
       <section class="section split-layout about" id="about">
         <div class="rail">
-          <p class="label" data-reveal><span>01</span>About</p>
+          <p class="label" data-reveal data-scramble><span class="label-num">01</span><span data-scramble-text>About</span></p>
           <h2 class="h2" data-split>From the kernel to the network</h2>
           <div class="rail-object" aria-hidden="true"></div>
         </div>
@@ -228,7 +254,7 @@
       <section class="section work" id="work">
         <div class="work-pin">
           <div class="work-side">
-            <p class="label" data-reveal><span>02</span>Work</p>
+            <p class="label" data-reveal data-scramble><span class="label-num">02</span><span data-scramble-text>Work</span></p>
             <h2 class="h2" data-split>Things I have built</h2>
             <p class="work-intro" data-reveal>Four projects, from a kernel to a SIEM. All the code is on GitHub.</p>
 
@@ -385,14 +411,14 @@
       <!-- Skills -->
       <section class="section split-layout skills" id="skills">
         <div class="rail">
-          <p class="label" data-reveal><span>03</span>Skills</p>
+          <p class="label" data-reveal data-scramble><span class="label-num">03</span><span data-scramble-text>Skills</span></p>
           <h2 class="h2" data-split>What I work with</h2>
           <div class="rail-object" aria-hidden="true"></div>
         </div>
 
         <div class="content">
           <div class="skill-block">
-            <h3 class="block-title" data-reveal>Languages</h3>
+            <h3 class="block-title" data-reveal data-scramble data-scramble-text>Languages</h3>
             <ul class="langs">
               <li data-flip><span class="lang">Python</span><span class="use">Security tools, automation and scripts</span></li>
               <li data-flip><span class="lang">C</span><span class="use">Kernels, system software and malware research</span></li>
@@ -401,7 +427,7 @@
           </div>
 
           <div class="skill-block">
-            <h3 class="block-title" data-reveal>Areas</h3>
+            <h3 class="block-title" data-reveal data-scramble data-scramble-text>Areas</h3>
             <ul class="areas">
               <li data-flip>Offensive security</li>
               <li data-flip>Defensive security</li>
@@ -413,7 +439,7 @@
           </div>
 
           <div class="skill-block">
-            <h3 class="block-title" data-reveal>Education</h3>
+            <h3 class="block-title" data-reveal data-scramble data-scramble-text>Education</h3>
             <div class="edu" data-flip>
               <p class="edu-school">SRM University AP</p>
               <p class="edu-degree">Bachelor of Technology</p>
@@ -426,7 +452,7 @@
       <!-- Contact -->
       <section class="section split-layout contact" id="contact">
         <div class="rail">
-          <p class="label" data-reveal><span>04</span>Contact</p>
+          <p class="label" data-reveal data-scramble><span class="label-num">04</span><span data-scramble-text>Contact</span></p>
           <h2 class="h2" data-split>Say hello</h2>
           <p class="contact-copy" data-reveal>
             Want to work together or talk about security research?
@@ -474,7 +500,8 @@
                   <div class="form-foot">
                     <button type="submit" class="btn btn-primary submit">
                       <span class="submit-label">Send message</span>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                      <svg class="submit-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                      <svg class="submit-check" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5" /></svg>
                     </button>
                     <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
                   </div>

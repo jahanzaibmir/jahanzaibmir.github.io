@@ -2,6 +2,7 @@
 // It names the shape and shows how far it has turned in three 4D planes.
 
 import { SHAPES } from './shapes.js';
+import { scramble } from '../lib/scramble.js';
 
 const deg = (a) => String(Math.round((((a * 180) / Math.PI) % 360 + 360) % 360)).padStart(3, '0');
 
@@ -22,8 +23,8 @@ export function createCaption(el) {
       if (i === current) return;
       current = i;
       num.textContent = String(i + 1).padStart(2, '0');
-      title.textContent = SHAPES[i].name;
-      note.textContent = SHAPES[i].note;
+      scramble(title, SHAPES[i].name, { duration: 600 });
+      scramble(note, SHAPES[i].note, { duration: 900, delay: 120 });
       swapping.forEach((node) => {
         node.classList.remove('is-swap');
         void node.offsetWidth; // restart the animation

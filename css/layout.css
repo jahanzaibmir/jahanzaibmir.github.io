@@ -34,6 +34,9 @@
 
 /* ---------- Reveals (only when scripts run) ---------- */
 
+/* set for one frame while a section is reset behind a section card */
+.no-anim, .no-anim * { transition: none !important; }
+
 /* blocks tip up from a slight backward lean */
 .js [data-reveal] {
   opacity: 0;

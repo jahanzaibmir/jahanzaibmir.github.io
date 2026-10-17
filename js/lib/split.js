@@ -56,7 +56,21 @@ export function splitLetters(el) {
   return $$('.oc', el);
 }
 
+// Hover roll: the label turns up and away on a 3D hinge while a copy turns
+// in from below. Only the first text in the element is wrapped, so icons
+// stay where they are.
+export function rollify(el) {
+  const node = [...el.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
+  if (!node) return;
+  const text = escapeHtml(node.textContent.trim());
+  const wrap = document.createElement('span');
+  wrap.className = 'roll';
+  wrap.innerHTML = `<span class="roll-a">${text}</span><span class="roll-b" aria-hidden="true">${text}</span>`;
+  el.replaceChild(wrap, node);
+}
+
 export function splitAll() {
   $$('[data-split]').forEach(splitWords);
   $$('[data-chars]').forEach(splitChars);
+  $$('.nav-links a, .hero-actions .btn').forEach(rollify);
 }

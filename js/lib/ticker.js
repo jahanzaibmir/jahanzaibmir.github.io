@@ -22,6 +22,14 @@ export function setLenis(instance) {
   lenis = instance;
 }
 
+// After the page jumps (behind a section card) the jump must not count as
+// a burst of scrolling.
+export function resetSpeed() {
+  lastY = window.scrollY;
+  frame.y = lastY;
+  frame.vy = 0;
+}
+
 export function onFrame(fn) {
   subscribers.add(fn);
   if (!started) {
@@ -50,5 +58,13 @@ function tick(now) {
   frame.vy += (speed - frame.vy) * Math.min(1, dt * 7);
   lastY = frame.y;
 
-  subscribers.forEach((fn) => fn(frame));
+  // one broken effect must not stop the others, so each runs on its own
+  subscribers.forEach((fn) => {
+    try {
+      fn(frame);
+    } catch (err) {
+      subscribers.delete(fn);
+      console.error('[frame]', err);
+    }
+  });
 }

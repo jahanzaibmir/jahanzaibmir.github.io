@@ -64,10 +64,11 @@ function statementWords() {
     last = p;
     const lit = p * (words.length + 1.5);
     words.forEach((w, i) => {
-      const o = Math.round((0.16 + 0.84 * clamp(lit - i)) * 100) / 100;
-      if (o !== shown[i]) {
-        shown[i] = o;
-        w.style.opacity = o;
+      const v = Math.round(clamp(lit - i) * 100) / 100;
+      if (v !== shown[i]) {
+        shown[i] = v;
+        w.style.opacity = (0.16 + 0.84 * v).toFixed(2);
+        w.style.transform = v >= 1 ? 'none' : `translate3d(0, ${((1 - v) * 0.2).toFixed(3)}em, 0)`;
       }
     });
   });

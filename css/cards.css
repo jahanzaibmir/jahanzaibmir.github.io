@@ -1,0 +1,164 @@
+/* Section cards: a full screen splash for a section, shown before the page
+   moves there. cards.js drives the wipe and the timing; this file sets the
+   look and the entrances of the text. */
+
+/* the card slides; the stage inside slides back by the same amount, so
+   the content holds still while the edge sweeps across the screen */
+.card {
+  position: fixed;
+  inset: 0;
+  z-index: 750;
+  display: none;
+  overflow: hidden;
+  color: var(--white);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.card.is-on { display: block; will-change: transform; }
+.card-stage {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(110% 80% at 72% 8%, #2a2a2d 0%, transparent 62%),
+    radial-gradient(80% 60% at 0% 100%, #1d1d1f 0%, transparent 70%),
+    #141415;
+}
+.card.is-on .card-stage { will-change: transform; }
+
+/* the scene draws the 4D shape here while a card is up */
+.card-scene {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  pointer-events: none;
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 24px var(--gutter) 30px;
+}
+
+/* the empty box the shape is drawn into */
+.card-object {
+  position: absolute;
+  top: 11vh;
+  bottom: 24vh;
+  right: var(--gutter);
+  width: min(50%, 700px);
+  pointer-events: none;
+}
+
+/* the text drifts a little against the wipe (cards.js sets --shift) */
+.card-top, .card-text, .card-foot { transform: translate3d(0, var(--shift, 0vh), 0); }
+
+.card-top {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 44px;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.card-num-now { color: var(--white); }
+
+.card-text { position: relative; margin-top: auto; }
+.card-title {
+  margin-left: -0.05em;
+  font-size: clamp(4.4rem, min(15vw, 24vh), 14rem);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+}
+.card-title .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: perspective(900px) translate3d(0, 0.24em, 0) rotateX(-96deg);
+  transform-origin: 50% 100%;
+  transition: transform 1.2s var(--ease), opacity 0.6s var(--ease);
+  transition-delay: calc(var(--i, 0) * 45ms);
+}
+.card.is-shown .card-title .ch { opacity: 1; transform: none; }
+
+.card-line {
+  max-width: 34em;
+  margin-top: 20px;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  color: var(--muted);
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition: opacity 0.8s var(--ease) 0.22s, transform 1s var(--ease) 0.22s;
+}
+.card.is-shown .card-line { opacity: 1; transform: none; }
+
+.card-foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 5vh;
+  padding-top: 20px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+/* the rule above the foot draws itself in */
+.card-foot::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--line-2);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1.1s var(--ease) 0.1s;
+}
+.card.is-shown .card-foot::before { transform: none; }
+
+.card-dots { width: 30px; height: 30px; }
+.card-dots i::after { width: 4px; height: 4px; margin-left: -2px; }
+
+/* on the way out the text drifts up and fades a little ahead of the wipe */
+.card.is-leaving .card-top,
+.card.is-leaving .card-text,
+.card.is-leaving .card-foot {
+  opacity: 0;
+  transition: opacity 0.55s var(--ease);
+}
+
+/* soft shadow that follows the moving edge of the card */
+.card-edge {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 749;
+  display: none;
+  height: 180px;
+  pointer-events: none;
+}
+.card-edge.is-in { display: block; background: linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent); }
+.card-edge.is-out { display: block; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent); }
+
+@media (max-width: 759px) {
+  .card-object {
+    top: calc(var(--nav-h) + 4vh);
+    bottom: auto;
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    height: 40vh;
+  }
+  .card-top { min-height: 40px; }
+  .card-foot { margin-top: 4vh; }
+}

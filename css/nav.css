@@ -60,6 +60,13 @@ body.menu-open .nav::before { opacity: 0; }
   stroke-linecap: round; stroke-linejoin: round;
 }
 .brand:hover .brand-mark { transform: perspective(240px) rotateY(-24deg) rotateX(10deg); }
+/* the monogram draws its J and then its M once the page is revealed */
+.js .brand-mark path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.8s var(--ease-in-out) 0.7s;
+}
+.js body.is-loading .brand-mark path { stroke-dashoffset: 1; }
 
 .nav-main { position: relative; }
 .nav-links { display: flex; gap: 2px; }

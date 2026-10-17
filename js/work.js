@@ -5,7 +5,8 @@
 // can be clicked to jump to a project. Small screens and reduced motion get
 // a plain list instead.
 
-import { $, $$, clamp, smoothstep, easeOut, reduceMotion, afterIntro } from './lib/env.js';
+import { $, $$, clamp, smoothstep, easeOut, reduceMotion, afterIntro, whenClear } from './lib/env.js';
+import { scramble } from './lib/scramble.js';
 import { onFrame } from './lib/ticker.js';
 import { onMeasure, docTop } from './lib/layout.js';
 import { scrollToY } from './lib/smooth.js';
@@ -20,6 +21,8 @@ export function initWork() {
   const wins = $$('.pwin', section);
   const shades = wins.map((w) => $('.pwin-shade', w));
   const links = $$('.work-index a', section);
+  const types = wins.map((w) => $('.pwin-top span:last-child', w));
+  const typeText = types.map((t) => (t ? t.textContent : ''));
   const bar = $('.work-progress span', section);
   const n = wins.length;
   if (!stage || n < 2) return;
@@ -43,6 +46,8 @@ export function initWork() {
     front = -1;
     if (on) return;
     section.style.height = '';
+    stage.style.transform = '';
+    stage.style.opacity = '';
     wins.forEach((w, i) => {
       w.style.transform = '';
       w.style.opacity = '';
@@ -74,7 +79,7 @@ export function initWork() {
     return i + smoothstep(0.12, 0.88, raw - i);
   }
 
-  function place(i, rel, alpha) {
+  function place(i, rel) {
     const w = wins[i];
     if (rel > 3.6 || rel < -1) {
       w.style.visibility = 'hidden';
@@ -107,7 +112,7 @@ export function initWork() {
     }
     w.style.visibility = '';
     w.style.zIndex = String(n - i);
-    w.style.opacity = (op * alpha).toFixed(3);
+    w.style.opacity = op.toFixed(3);
     w.style.transform = Math.abs(rel) < 0.0005
       ? 'none'
       : `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, ${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) rotateX(${rx.toFixed(2)}deg)`;
@@ -118,19 +123,29 @@ export function initWork() {
     if (!on) return;
     if (enterStart >= 0 && entered < 1) entered = easeOut(clamp((fr.time - enterStart) / 1.6));
     const p = progress(fr.y);
-    const key = `${p.toFixed(4)}|${entered.toFixed(4)}|${W}|${H}`;
+    // once the last project has had its moment, the whole stage tips back
+    // into the screen as the section scrolls away
+    const exit = clamp((fr.y - top - span) / (window.innerHeight * 0.3));
+    const key = `${p.toFixed(4)}|${entered.toFixed(4)}|${exit.toFixed(4)}|${W}|${H}`;
     if (key === lastKey) return;
     lastKey = key;
+    stage.style.transform = exit > 0
+      ? `perspective(1600px) translate3d(0, ${(-exit * 40).toFixed(1)}px, ${(-exit * 160).toFixed(1)}px) rotateX(${(exit * 11).toFixed(2)}deg)`
+      : '';
+    // the stack fades in as one piece, so windows never show through each other
+    const fade = entered * (1 - exit * 0.35);
+    stage.style.opacity = fade < 1 ? fade.toFixed(3) : '';
 
     // before the section is reached the windows wait further back, hidden
     const back = (1 - entered) * 2.4;
-    for (let i = 0; i < n; i++) place(i, i - p + back, entered);
+    for (let i = 0; i < n; i++) place(i, i - p + back);
 
     const current = Math.round(p);
     if (current !== front) {
       front = current;
       links.forEach((a, i) => a.classList.toggle('is-on', i === current));
       wins.forEach((w, i) => w.classList.toggle('is-front', i === current));
+      if (entered > 0.5 && types[current]) scramble(types[current], typeText[current], { duration: 600, delay: 150 });
     }
     if (bar) bar.style.transform = `scaleX(${(p / (n - 1)).toFixed(4)})`;
   });
@@ -172,8 +187,17 @@ export function initWork() {
     const io = new IntersectionObserver((entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;
       io.disconnect();
-      enterStart = performance.now() / 1000;
+      whenClear(() => { enterStart = performance.now() / 1000; });
     }, { threshold: 0.15 });
     io.observe(stage);
+  });
+
+  // opening Work from its section card deals the windows in again
+  document.addEventListener('card:jump', (e) => {
+    if (e.detail.id !== 'work' || !on) return;
+    entered = 0;
+    enterStart = -1;
+    lastKey = '';
+    whenClear(() => { enterStart = performance.now() / 1000; });
   });
 }

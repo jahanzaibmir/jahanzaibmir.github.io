@@ -20,6 +20,6 @@
     opacity: 1;
     transform: none;
   }
-  .js .statement .sw { opacity: 1; }
+  .js .statement .sw { opacity: 1; transform: none; }
   .term .cur { animation: none; }
 }

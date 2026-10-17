@@ -33,5 +33,12 @@ export function afterIntro(fn) {
   else document.addEventListener('intro:lift', fn, { once: true });
 }
 
+// Run fn now, or once the section card covering the page starts to lift,
+// so animations never play out of sight behind it.
+export function whenClear(fn) {
+  if (!document.body.classList.contains('card-on')) fn();
+  else document.addEventListener('card:out', () => fn(), { once: true });
+}
+
 export const escapeHtml = (s) =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);

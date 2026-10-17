@@ -30,6 +30,11 @@ export function sectionCoord(y, vh) {
 // raw follows the scroll exactly; smooth eases after it
 export const where = { raw: 0, smooth: 0 };
 
+// A section card has already shown the morph, so skip straight to it
+export function snapWhere(value) {
+  where.smooth = value;
+}
+
 let first = true;
 onFrame((fr) => {
   where.raw = sectionCoord(fr.y, fr.vh);

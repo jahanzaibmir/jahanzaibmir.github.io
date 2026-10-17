@@ -131,6 +131,22 @@
 .work.is-3d .pwin:not(.is-front) { cursor: pointer; }
 .work.is-3d .pwin:not(.is-front) .link { pointer-events: none; }
 
+/* the content of the front window settles into place as it comes forward,
+   and sinks back a little as it leaves */
+.js .work.is-3d .pwin-main > * {
+  transition: transform 1.05s var(--ease), opacity 0.8s var(--ease);
+}
+.js .work.is-3d .pwin:not(.is-front) .pwin-main > * {
+  opacity: 0.35;
+  transform: translate3d(0, 22px, 0);
+}
+.js .work.is-3d .pwin:not(.is-front) .pwin-main h3 {
+  transform: perspective(800px) translate3d(0, 16px, 0) rotateX(-32deg);
+}
+.js .work.is-3d .pwin-main h3 { transform-origin: 0 100%; }
+.js .work.is-3d .pwin.is-front .pwin-main > :nth-child(2) { transition-delay: 0.08s; }
+.js .work.is-3d .pwin.is-front .pwin-main > :nth-child(3) { transition-delay: 0.16s; }
+
 /* ---------- List ---------- */
 
 .work:not(.is-3d) .work-pin { display: block; }

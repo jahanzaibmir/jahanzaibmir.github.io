@@ -12,7 +12,7 @@ export async function initSmooth() {
   if (reduceMotion) return;
   try {
     const { default: Lenis } = await import('https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.mjs');
-    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
     setLenis(lenis);
     if (locks.size) lenis.stop();
   } catch {
@@ -47,6 +47,14 @@ export function scrollToY(y, { onDone } = {}) {
   }
   window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
   if (onDone) waitForScrollEnd(top, onDone);
+}
+
+// Move straight to a position with no animation. It works while scrolling is
+// locked, which is how the section cards move the page behind themselves.
+export function jumpTo(y) {
+  const top = Math.max(0, Math.round(y));
+  if (lenis) lenis.scrollTo(top, { immediate: true, force: true });
+  else window.scrollTo(0, top);
 }
 
 // Without Lenis there is no reliable "scroll finished" event everywhere,

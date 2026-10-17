@@ -68,12 +68,23 @@
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
 .hero-meta {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 16px 64px;
   padding: 24px 0 30px;
-  border-top: 1px solid var(--line);
 }
+.hero-meta::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--line);
+  transform-origin: 0 50%;
+  transition: transform 1.8s var(--ease) 1.2s;
+}
+.js body.is-loading .hero-meta::before,
+.js .hero.is-replay .hero-meta::before { transform: scaleX(0); }
 .hero-meta dt {
   margin-bottom: 3px;
   font-family: var(--mono);
@@ -109,6 +120,16 @@
 
 /* narrow screens and tablets held upright: the shape sits on top and
    takes whatever height the text leaves free */
+/* a section card opening Home resets the hero so it plays in again */
+.js .hero.is-replay [data-enter] {
+  opacity: 0;
+  transform: perspective(1000px) translate3d(0, 28px, 0) rotateX(14deg);
+}
+.js .hero.is-replay .hero-name .ch {
+  opacity: 0;
+  transform: perspective(900px) translate3d(0, 0.18em, 0) rotateX(-96deg);
+}
+
 @media (max-width: 959px) {
   .hero { display: flex; flex-direction: column; padding-top: var(--nav-h); }
   .hero-object {

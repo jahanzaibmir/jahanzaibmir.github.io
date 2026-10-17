@@ -6,6 +6,7 @@ import { $, $$ } from './lib/env.js';
 import { onFrame } from './lib/ticker.js';
 import { onMeasure, docTop, pageHeight } from './lib/layout.js';
 import { lockScroll, unlockScroll, scrollToY } from './lib/smooth.js';
+import { playCard } from './cards.js';
 
 const body = document.body;
 
@@ -111,8 +112,10 @@ export function initNav() {
     if (link) placePill(link);
   });
 
-  /* ---------- Links inside the page glide instead of jumping ---------- */
+  /* ---------- Links inside the page ---------- */
 
+  // A section link first shows that section's card (cards.js). Anything
+  // else, or a visitor who asked for less motion, glides there instead.
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -122,12 +125,22 @@ export function initNav() {
     if (!target) return;
     e.preventDefault();
     if (menuOpen) setMenu(false);
-    scrollToY(id === 'top' ? 0 : docTop(target));
     history.pushState(null, '', id === 'top' ? window.location.pathname : `#${id}`);
+    if (playCard(id)) return;
+    scrollToY(id === 'top' ? 0 : docTop(target));
     if (id !== 'top') {
       if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
       target.focus({ preventScroll: true });
     }
+  });
+
+  // after a card has moved the page, keep the bar in view and don't treat
+  // the jump as scrolling down
+  document.addEventListener('card:jump', () => {
+    requestAnimationFrame(() => {
+      lastY = window.scrollY;
+      setHidden(false);
+    });
   });
 
   /* ---------- Phone menu ---------- */

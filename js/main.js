@@ -6,6 +6,7 @@ import { $ } from './lib/env.js';
 import { splitAll } from './lib/split.js';
 import { initSmooth } from './lib/smooth.js';
 import { initScene } from './scene/index.js';
+import { initCards } from './cards.js';
 import { initBackdrop } from './backdrop.js';
 import { initNav } from './nav.js';
 import { initWindows } from './windows.js';
@@ -31,6 +32,7 @@ if (year) year.textContent = String(new Date().getFullYear());
 
 start('text', splitAll);
 start('scene', initScene);
+start('cards', initCards);
 start('backdrop', initBackdrop);
 start('nav', initNav);
 start('windows', initWindows);

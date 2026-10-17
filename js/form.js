@@ -51,6 +51,7 @@ export function initForm() {
     if (data.botcheck) return;
     delete data.botcheck;
 
+    let sent = false;
     button.disabled = true;
     label.textContent = 'Sending';
     setStatus('');
@@ -68,12 +69,20 @@ export function initForm() {
       if (!res.ok || !result.success) throw new Error(result.message || res.statusText);
       setStatus('Thank you. Your message was sent.', 'ok');
       form.reset();
+      button.classList.add('is-sent');
+      sent = true;
     } catch {
       setStatus('Sorry, the message could not be sent. Please try again.', 'err');
     } finally {
       clearTimeout(timer);
       button.disabled = false;
-      label.textContent = 'Send message';
+      label.textContent = sent ? 'Sent' : 'Send message';
+      if (sent) {
+        setTimeout(() => {
+          button.classList.remove('is-sent');
+          label.textContent = 'Send message';
+        }, 3500);
+      }
     }
   });
 }
