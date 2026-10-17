@@ -1,0 +1,83 @@
+/* Section shells and the scroll reveals they share */
+
+.section {
+  position: relative;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: clamp(96px, 11vw, 160px) var(--gutter) clamp(64px, 7vw, 120px);
+}
+
+/* a sticky left rail with the heading, and the content on the right.
+   The empty part of the rail is where the 4D shape sits. */
+.split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.45fr);
+  column-gap: clamp(40px, 7vw, 120px);
+  align-items: start;
+}
+.rail {
+  position: sticky;
+  top: calc(var(--nav-h) + 36px);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--nav-h) - 72px);
+  min-height: 360px;
+}
+.rail .h2 { margin-top: 22px; }
+.rail-object { flex: 1; min-height: 0; margin-top: 28px; }
+
+@media (max-width: 959px) {
+  .split-layout { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: relative; top: auto; height: auto; min-height: 0; margin-bottom: 52px; }
+  .rail-object { display: none; }
+}
+
+/* ---------- Reveals (only when scripts run) ---------- */
+
+/* blocks tip up from a slight backward lean */
+.js [data-reveal] {
+  opacity: 0;
+  transform: perspective(1100px) translate3d(0, 40px, 0) rotateX(18deg);
+  transform-origin: 50% 0%;
+  transition: opacity 1s var(--ease), transform 1.4s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* headings: every word turns up into place from behind a line */
+.js [data-split] .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.02em 0.06em 0.16em;
+  margin: -0.02em -0.06em -0.16em;
+}
+.js [data-split] .w > i {
+  display: inline-block;
+  font-style: inherit;
+  transform: perspective(700px) translate3d(0, 112%, 0) rotateX(-75deg);
+  transform-origin: 50% 100%;
+  transition: transform 1.4s var(--ease);
+  transition-delay: calc(var(--d, 0s) + var(--i, 0) * 65ms);
+}
+.js [data-split].is-in .w > i { transform: none; }
+
+/* rows fold down like cards on a hinge */
+.js [data-flip] {
+  opacity: 0;
+  transform: perspective(900px) rotateX(-82deg);
+  transform-origin: 50% 0%;
+  transition: transform 1.25s var(--ease), opacity 0.7s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js [data-flip].is-in { opacity: 1; transform: none; }
+
+/* windows open like an app launching, tilting up out of the screen */
+.js [data-win-in] {
+  opacity: 0;
+  transform: perspective(1500px) translate3d(0, 64px, -90px) rotateX(22deg) scale(0.96);
+  transform-origin: 50% 100%;
+  transition: opacity 0.9s var(--ease), transform 1.6s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.js [data-win-in].is-in { opacity: 1; transform: none; }

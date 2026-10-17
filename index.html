@@ -1,297 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Jahanzaib Ashraf Mir | Cybersecurity Engineer</title>
-    <meta name="description" content="Jahanzaib Ashraf Mir is a cybersecurity engineer and researcher. He builds secure systems, starting from the kernel." />
+    <meta name="description" content="Jahanzaib Ashraf Mir, cybersecurity engineer and researcher. Building secure systems, from the kernel to the network." />
     <meta name="author" content="Jahanzaib Ashraf Mir" />
-    <meta name="theme-color" content="#222224" />
+    <meta name="theme-color" content="#1f1f21" />
     <meta name="color-scheme" content="dark" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Jahanzaib Ashraf Mir | Cybersecurity Engineer" />
-    <meta property="og:description" content="I build secure systems, starting from the kernel." />
-    <meta property="og:url" content="https://jahanzaibmir.github.io/" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:creator" content="@Jahanzaib1318" />
     <link rel="canonical" href="https://jahanzaibmir.github.io/" />
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23f2f2f2'/%3E%3Cpath d='M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28' fill='none' stroke='%23222224' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jahanzaibmir.github.io/" />
+    <meta property="og:title" content="Jahanzaib Ashraf Mir | Cybersecurity Engineer" />
+    <meta property="og:description" content="I build secure systems, from the kernel to the network." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@Jahanzaib1318" />
+
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" />
 
-    <script type="importmap">
-      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
-    </script>
-    <script type="module" src="/src/main.js"></script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/intro.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/scene.css" />
+    <link rel="stylesheet" href="css/hero.css" />
+    <link rel="stylesheet" href="css/windows.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <link rel="stylesheet" href="css/work.css" />
+    <link rel="stylesheet" href="css/skills.css" />
+    <link rel="stylesheet" href="css/contact.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/motion.css" />
+
+    <script>document.documentElement.classList.add('js', 'is-intro');</script>
+    <script nomodule>document.documentElement.classList.remove('js', 'is-intro');</script>
+    <link rel="modulepreload" href="js/main.js" />
+    <link rel="modulepreload" href="js/lib/env.js" />
+    <link rel="modulepreload" href="js/lib/ticker.js" />
+    <link rel="modulepreload" href="js/lib/layout.js" />
+    <link rel="modulepreload" href="js/lib/smooth.js" />
+    <link rel="modulepreload" href="js/lib/split.js" />
+    <link rel="modulepreload" href="js/lib/sections.js" />
+    <link rel="modulepreload" href="js/intro/index.js" />
+    <link rel="modulepreload" href="js/intro/logo.js" />
+    <link rel="modulepreload" href="js/scene/index.js" />
+    <link rel="modulepreload" href="js/scene/shapes.js" />
+    <link rel="modulepreload" href="js/scene/math4d.js" />
+    <link rel="modulepreload" href="js/scene/gl.js" />
+    <link rel="modulepreload" href="js/scene/shaders.js" />
+    <link rel="modulepreload" href="js/scene/caption.js" />
+    <link rel="modulepreload" href="js/backdrop.js" />
+    <link rel="modulepreload" href="js/nav.js" />
+    <link rel="modulepreload" href="js/windows.js" />
+    <link rel="modulepreload" href="js/terminal.js" />
+    <link rel="modulepreload" href="js/work.js" />
+    <link rel="modulepreload" href="js/form.js" />
+    <link rel="modulepreload" href="js/scrub.js" />
+    <link rel="modulepreload" href="js/reveal.js" />
+    <script type="module" src="js/main.js"></script>
   </head>
 
   <body class="is-loading">
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip" href="#main">Skip to content</a>
 
-    <!-- Boot screen -->
-    <div class="intro" aria-hidden="true">
+    <!-- Start up: a boot screen, then a lock screen that slides away -->
+    <div class="intro" id="intro" aria-hidden="true">
       <div class="boot">
-        <svg class="boot-logo" viewBox="0 0 96 64">
-          <path class="l-j" d="M38 10v30a14 14 0 0 1-27 6" />
-          <path class="l-m" d="M50 54V10l13 24 13-24v44" />
-        </svg>
+        <canvas class="boot-logo"></canvas>
         <div class="boot-dots"><i></i><i></i><i></i><i></i><i></i></div>
       </div>
-      <div class="welcome">
-        <p class="welcome-hi">Welcome</p>
-        <p class="welcome-name">Jahanzaib Ashraf Mir</p>
+      <div class="lock">
+        <div class="lock-clock">
+          <p class="lock-time"></p>
+          <p class="lock-date"></p>
+        </div>
+        <p class="lock-name">Jahanzaib Ashraf Mir</p>
       </div>
-      <p class="intro-skip">Click anywhere to skip</p>
+      <p class="intro-hint">Click or press any key to skip</p>
     </div>
 
-    <canvas id="bg" aria-hidden="true"></canvas>
-    <div class="progress" aria-hidden="true"><span></span></div>
-    <div class="cursor-ring" aria-hidden="true"></div>
+    <!-- Background layers: colour, the 4D scene and its label -->
+    <div class="backdrop" aria-hidden="true"></div>
+    <canvas class="scene" aria-hidden="true"></canvas>
+    <div class="figure" aria-hidden="true">
+      <p class="figure-name"><span class="figure-num">01</span><span class="figure-title">Tesseract</span></p>
+      <p class="figure-note">A cube in four dimensions. 16 corners and 32 edges.</p>
+      <p class="figure-angles"></p>
+    </div>
 
-    <nav id="navbar" aria-label="Main">
-      <a href="#hero" class="nav-logo">
-        <span class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><path d="M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28"/></svg>
-        </span>
-        <span class="logo-text">Jahanzaib Ashraf Mir</span>
-      </a>
+    <header class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Jahanzaib Ashraf Mir, back to top">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M24 18v19a8 8 0 0 1-14 4M33 46V18l9.5 14 9.5-14v28" /></svg>
+          </span>
+          <span class="brand-name">Jahanzaib Ashraf Mir</span>
+        </a>
 
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <nav class="nav-main" aria-label="Main">
+          <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <span class="nav-pill" aria-hidden="true"></span>
+        </nav>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+          <span></span><span></span>
+        </button>
+      </div>
+      <div class="nav-progress" aria-hidden="true"><span></span></div>
+    </header>
+
+    <div class="menu" id="menu" hidden>
+      <nav aria-label="Menu">
+        <ol class="menu-links">
+          <li><a href="#about"><span>01</span>About</a></li>
+          <li><a href="#work"><span>02</span>Work</a></li>
+          <li><a href="#skills"><span>03</span>Skills</a></li>
+          <li><a href="#contact"><span>04</span>Contact</a></li>
+        </ol>
+      </nav>
+      <ul class="menu-socials">
+        <li><a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://x.com/Jahanzaib1318" target="_blank" rel="noopener noreferrer">X</a></li>
+        <li><a href="https://www.instagram.com/jahanzaibmir_" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a href="https://www.youtube.com/jahanzaibmir" target="_blank" rel="noopener noreferrer">YouTube</a></li>
       </ul>
-
-      <button id="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
-        <span></span><span></span>
-      </button>
-    </nav>
+    </div>
 
     <main id="main">
       <!-- Hero -->
-      <header id="hero">
+      <section class="hero" id="top" aria-label="Introduction">
+        <div class="hero-object" aria-hidden="true"></div>
+
         <div class="hero-inner">
-          <p class="hero-kicker" data-hero><span class="dot" aria-hidden="true"></span>Cybersecurity Engineer and Researcher</p>
-          <h1 class="letters" aria-label="Jahanzaib Ashraf Mir">Jahanzaib Ashraf Mir</h1>
-          <p class="hero-text" data-hero>
+          <p class="hero-role" data-enter="1">Cybersecurity engineer and researcher</p>
+          <h1 class="hero-name" data-chars>
+            <span class="line">Jahanzaib</span>
+            <span class="line">Ashraf Mir</span>
+          </h1>
+          <p class="hero-lede" data-enter="2">
             I build secure systems, and I break them to learn how they work.
-            My focus is low level code, computer networks and security.
+            I like working close to the hardware: kernels, networks and security tools.
           </p>
-          <p class="hero-typing" data-hero>
-            Right now I am into <span id="typed">offensive security</span><span class="caret" aria-hidden="true"></span>
-          </p>
-          <div class="hero-cta" data-hero>
-            <a href="#projects" class="btn btn-solid" data-magnetic>See my projects</a>
-            <a href="#contact" class="btn btn-ghost" data-magnetic>Contact me</a>
+          <div class="hero-actions" data-enter="3">
+            <a class="btn btn-primary" href="#work">
+              See my work
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+            <a class="btn btn-quiet" href="#contact">Contact me</a>
           </div>
-          <p class="hero-note" data-hero>B.Tech in Cybersecurity at SRM University AP</p>
         </div>
 
-        <a href="#about" class="scroll-hint" aria-label="Scroll down" data-hero>
-          <span class="mouse"><span></span></span>
-        </a>
-      </header>
+        <dl class="hero-meta" data-enter="4">
+          <div><dt>Studying</dt><dd>B.Tech in Cybersecurity</dd></div>
+          <div><dt>University</dt><dd>SRM University AP</dd></div>
+          <div><dt>Focus</dt><dd>Kernels, networks, security</dd></div>
+        </dl>
+      </section>
 
       <!-- About -->
-      <section id="about" class="section">
-        <div class="section-head">
-          <h2 class="split">About me</h2>
-          <p class="section-sub reveal">A little about who I am and what I do.</p>
+      <section class="section split-layout about" id="about">
+        <div class="rail">
+          <p class="label" data-reveal><span>01</span>About</p>
+          <h2 class="h2" data-split>From the kernel to the network</h2>
+          <div class="rail-object" aria-hidden="true"></div>
         </div>
 
-        <div class="about-grid">
-          <div class="about-copy">
-            <p class="lead reveal">
-              I am a cybersecurity engineer and researcher. I like to understand how computers work
-              at the lowest level, from the kernel all the way to the network.
-            </p>
-            <p class="reveal">
-              Most of my time goes into low level programming, computer networking, and offensive and
-              defensive security. I break systems to understand them, and then I build systems that are
-              harder to break.
-            </p>
-            <p class="reveal">
-              I have written a small kernel in C and Assembly, built a honeypot that tracks attackers,
-              and made a SIEM that detects them. I also study malware by writing my own samples and
-              testing them only inside a safe lab.
-            </p>
+        <div class="content">
+          <p class="statement" data-words>
+            I like to understand how computers work at the lowest level,
+            and then use what I learn to make them harder to break.
+          </p>
 
-            <dl class="stats reveal">
-              <div class="stat">
-                <dd class="stat-num" data-count="4">4</dd>
-                <dt class="stat-label">Main projects</dt>
-              </div>
-              <div class="stat">
-                <dd class="stat-num" data-count="2">2</dd>
-                <dt class="stat-label">Low level languages</dt>
-              </div>
-              <div class="stat">
-                <dd class="stat-num" data-count="3">3</dd>
-                <dt class="stat-label">High level languages</dt>
-              </div>
-            </dl>
+          <div class="about-text">
+            <p data-reveal>
+              Most of my time goes into low level programming, computer networking,
+              and offensive and defensive security. I break systems to understand them,
+              and then I build systems that are harder to break.
+            </p>
+            <p data-reveal>
+              I have written a small kernel in C and Assembly, built a honeypot that tracks
+              attackers, and made a SIEM that detects them. I also study malware by writing my
+              own samples and testing them only inside a safe lab.
+            </p>
           </div>
 
-          <div class="win-wrap win">
-            <div class="window terminal" id="terminal">
+          <div class="win-slot" data-win-in>
+            <div class="window terminal" data-window data-title="Terminal" data-name="terminal" tabindex="-1">
               <div class="win-bar">
                 <span class="win-title">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="m7.5 9.5 3 2.5-3 2.5M12.5 15h4" /></svg>
                   Terminal
                 </span>
-                <span class="win-ctrl">
-                  <button type="button" class="c-min" data-win="min" aria-label="Minimize terminal"></button>
-                  <button type="button" class="c-max" data-win="max" aria-label="Maximize terminal"></button>
-                  <button type="button" class="c-close" data-win="close" aria-label="Close terminal"></button>
-                </span>
+                <div class="win-ctrl">
+                  <button type="button" class="c-min" data-act="min" aria-label="Minimize terminal"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M0 5.5h10" /></svg></button>
+                  <button type="button" class="c-max" data-act="max" aria-label="Maximize terminal">
+                    <svg class="ico-max" viewBox="0 0 10 10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg>
+                    <svg class="ico-restore" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 2.5v-1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-1" /><rect x=".5" y="2.5" width="7" height="7" rx="1" /></svg>
+                  </button>
+                  <button type="button" class="c-close" data-act="close" aria-label="Close terminal"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></button>
+                </div>
               </div>
-              <div class="win-content">
-                <div class="terminal-body" id="terminal-body" data-lenis-prevent aria-live="polite"></div>
+              <div class="win-body">
+                <div class="term" id="term" tabindex="0" aria-label="Terminal output" aria-live="polite" data-lenis-prevent></div>
               </div>
             </div>
-            <button type="button" class="win-reopen" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></svg>
-              Open the terminal again
-            </button>
+            <div class="win-ghost" hidden>
+              <p class="win-ghost-text"></p>
+              <button type="button" class="btn btn-quiet btn-small"></button>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Projects -->
-      <section id="projects" class="section">
-        <div class="section-head">
-          <h2 class="split">Projects</h2>
-          <p class="section-sub reveal">Some things I have built. All the code is on GitHub.</p>
+      <!-- Work -->
+      <section class="section work" id="work">
+        <div class="work-pin">
+          <div class="work-side">
+            <p class="label" data-reveal><span>02</span>Work</p>
+            <h2 class="h2" data-split>Things I have built</h2>
+            <p class="work-intro" data-reveal>Four projects, from a kernel to a SIEM. All the code is on GitHub.</p>
+
+            <ol class="work-index" data-reveal>
+              <li><a href="#project-mirage" data-go="0"><span>01</span>Mirage</a></li>
+              <li><a href="#project-shieldx" data-go="1"><span>02</span>ShieldX</a></li>
+              <li><a href="#project-misery" data-go="2"><span>03</span>Misery</a></li>
+              <li><a href="#project-relis" data-go="3"><span>04</span>Relis</a></li>
+            </ol>
+            <div class="work-progress" aria-hidden="true"><span></span></div>
+
+            <a class="link" href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer" data-reveal>
+              See everything on GitHub
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+            </a>
+          </div>
+
+          <div class="work-stage">
+            <article class="window pwin" id="project-mirage" data-reveal>
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M10 13l-2 2 2 2M14 13l2 2-2 2" /></svg>
+                  mirage.py
+                </span>
+                <span class="win-ctrl" aria-hidden="true">
+                  <i class="c-min"><svg viewBox="0 0 10 10"><path d="M0 5.5h10" /></svg></i>
+                  <i class="c-max"><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg></i>
+                  <i class="c-close"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></i>
+                </span>
+              </div>
+              <div class="pwin-body">
+                <div class="pwin-top"><span>01</span><span>Honeypot</span></div>
+                <div class="pwin-main">
+                  <h3>Mirage</h3>
+                  <p class="pwin-desc">
+                    A honeypot that draws attackers in, records everything they do, and turns it
+                    into useful threat information and early warnings.
+                  </p>
+                  <ul class="tags" aria-label="Built with"><li>Python</li><li>Networking</li><li>Threat intel</li></ul>
+                </div>
+                <div class="pwin-foot">
+                  <span class="pwin-path">github.com/jahanzaibmir/Mirage</span>
+                  <a class="link" href="https://github.com/jahanzaibmir/Mirage" target="_blank" rel="noopener noreferrer">
+                    View code
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+                  </a>
+                </div>
+              </div>
+              <span class="pwin-shade" aria-hidden="true"></span>
+            </article>
+
+            <article class="window pwin" id="project-shieldx" data-reveal>
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M3 9h18M7 14h3M7 17h6M14 14h3" /></svg>
+                  shieldx
+                </span>
+                <span class="win-ctrl" aria-hidden="true">
+                  <i class="c-min"><svg viewBox="0 0 10 10"><path d="M0 5.5h10" /></svg></i>
+                  <i class="c-max"><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg></i>
+                  <i class="c-close"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></i>
+                </span>
+              </div>
+              <div class="pwin-body">
+                <div class="pwin-top"><span>02</span><span>SIEM</span></div>
+                <div class="pwin-main">
+                  <h3>ShieldX</h3>
+                  <p class="pwin-desc">
+                    Collects security events from many systems, links them together and shows
+                    the alerts on one dashboard, in real time.
+                  </p>
+                  <ul class="tags" aria-label="Built with"><li>SIEM</li><li>Detection</li><li>Log analysis</li></ul>
+                </div>
+                <div class="pwin-foot">
+                  <span class="pwin-path">github.com/jahanzaibmir/ShieldX</span>
+                  <a class="link" href="https://github.com/jahanzaibmir/ShieldX" target="_blank" rel="noopener noreferrer">
+                    View code
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+                  </a>
+                </div>
+              </div>
+              <span class="pwin-shade" aria-hidden="true"></span>
+            </article>
+
+            <article class="window pwin" id="project-misery" data-reveal>
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M10 13l-2 2 2 2M14 13l2 2-2 2" /></svg>
+                  misery.c
+                </span>
+                <span class="win-ctrl" aria-hidden="true">
+                  <i class="c-min"><svg viewBox="0 0 10 10"><path d="M0 5.5h10" /></svg></i>
+                  <i class="c-max"><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg></i>
+                  <i class="c-close"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></i>
+                </span>
+              </div>
+              <div class="pwin-body">
+                <div class="pwin-top"><span>03</span><span>Malware research</span></div>
+                <div class="pwin-main">
+                  <h3>Misery</h3>
+                  <p class="pwin-desc">
+                    A ransomware sample written in C to study how these attacks encrypt and spread,
+                    and how to stop them. It is made for the lab only.
+                  </p>
+                  <ul class="tags" aria-label="Built with"><li>C</li><li>Cryptography</li><li>Malware analysis</li></ul>
+                </div>
+                <div class="pwin-foot">
+                  <span class="pwin-path">github.com/jahanzaibmir/Misery</span>
+                  <a class="link" href="https://github.com/jahanzaibmir/Misery" target="_blank" rel="noopener noreferrer">
+                    View code
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+                  </a>
+                </div>
+              </div>
+              <span class="pwin-shade" aria-hidden="true"></span>
+            </article>
+
+            <article class="window pwin" id="project-relis" data-reveal>
+              <div class="win-bar">
+                <span class="win-title">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" /></svg>
+                  relis.asm
+                </span>
+                <span class="win-ctrl" aria-hidden="true">
+                  <i class="c-min"><svg viewBox="0 0 10 10"><path d="M0 5.5h10" /></svg></i>
+                  <i class="c-max"><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg></i>
+                  <i class="c-close"><svg viewBox="0 0 10 10"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></i>
+                </span>
+              </div>
+              <div class="pwin-body">
+                <div class="pwin-top"><span>04</span><span>Operating system</span></div>
+                <div class="pwin-main">
+                  <h3>Relis</h3>
+                  <p class="pwin-desc">
+                    A small kernel built from scratch in C and Assembly, with its own boot code and
+                    memory management. I made it to learn how computers really work.
+                  </p>
+                  <ul class="tags" aria-label="Built with"><li>C</li><li>Assembly</li><li>OS development</li></ul>
+                </div>
+                <div class="pwin-foot">
+                  <span class="pwin-path">github.com/jahanzaibmir/relis</span>
+                  <a class="link" href="https://github.com/jahanzaibmir/relis" target="_blank" rel="noopener noreferrer">
+                    View code
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+                  </a>
+                </div>
+              </div>
+              <span class="pwin-shade" aria-hidden="true"></span>
+            </article>
+          </div>
         </div>
-
-        <div class="projects-grid">
-          <article class="win-wrap win">
-            <a class="window tilt" href="https://github.com/jahanzaibmir/Mirage" target="_blank" rel="noopener noreferrer">
-              <div class="win-bar">
-                <span class="win-title">mirage.py</span>
-                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
-              </div>
-              <div class="win-body">
-                <p class="p-type">Honeypot</p>
-                <h3>Mirage</h3>
-                <p class="p-desc">
-                  A honeypot that attracts attackers, records everything they do and turns it into
-                  useful threat information and early warnings.
-                </p>
-                <ul class="tags" aria-label="Built with"><li>Python</li><li>Networking</li><li>Threat Intel</li></ul>
-                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              </div>
-            </a>
-          </article>
-
-          <article class="win-wrap win">
-            <a class="window tilt" href="https://github.com/jahanzaibmir/ShieldX" target="_blank" rel="noopener noreferrer">
-              <div class="win-bar">
-                <span class="win-title">shieldx</span>
-                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
-              </div>
-              <div class="win-body">
-                <p class="p-type">SIEM</p>
-                <h3>ShieldX</h3>
-                <p class="p-desc">
-                  Collects security events from many systems, links them together and shows alerts
-                  in one dashboard, in real time.
-                </p>
-                <ul class="tags" aria-label="Built with"><li>SIEM</li><li>Detection</li><li>Log Analysis</li></ul>
-                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              </div>
-            </a>
-          </article>
-
-          <article class="win-wrap win">
-            <a class="window tilt" href="https://github.com/jahanzaibmir/Misery" target="_blank" rel="noopener noreferrer">
-              <div class="win-bar">
-                <span class="win-title">misery.c</span>
-                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
-              </div>
-              <div class="win-body">
-                <p class="p-type">Malware research</p>
-                <h3>Misery</h3>
-                <p class="p-desc">
-                  A ransomware sample written in C to study how these attacks encrypt and spread,
-                  and how to stop them. It is made for the lab only.
-                </p>
-                <ul class="tags" aria-label="Built with"><li>C</li><li>Cryptography</li><li>Malware Analysis</li></ul>
-                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              </div>
-            </a>
-          </article>
-
-          <article class="win-wrap win">
-            <a class="window tilt" href="https://github.com/jahanzaibmir/relis" target="_blank" rel="noopener noreferrer">
-              <div class="win-bar">
-                <span class="win-title">relis.asm</span>
-                <span class="win-ctrl" aria-hidden="true"><i class="c-min"></i><i class="c-max"></i><i class="c-close"></i></span>
-              </div>
-              <div class="win-body">
-                <p class="p-type">Operating system</p>
-                <h3>Relis</h3>
-                <p class="p-desc">
-                  A small kernel built from scratch in C and Assembly, with its own boot code and
-                  memory management. I made it to learn how computers really work.
-                </p>
-                <ul class="tags" aria-label="Built with"><li>C</li><li>Assembly</li><li>OS Development</li></ul>
-                <span class="p-link">View code <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              </div>
-            </a>
-          </article>
-        </div>
-
-        <p class="more reveal">
-          <a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer">See all my work on GitHub</a>
-        </p>
       </section>
 
       <!-- Skills -->
-      <section id="skills" class="section">
-        <div class="section-head">
-          <h2 class="split">Skills and Education</h2>
-          <p class="section-sub reveal">The languages I use and the areas I work in.</p>
+      <section class="section split-layout skills" id="skills">
+        <div class="rail">
+          <p class="label" data-reveal><span>03</span>Skills</p>
+          <h2 class="h2" data-split>What I work with</h2>
+          <div class="rail-object" aria-hidden="true"></div>
         </div>
 
-        <div class="skills-grid">
-          <div class="win-wrap win">
-            <div class="card tilt">
-              <h3>Languages</h3>
-              <ul class="lang-list">
-                <li><span class="lang-name">Python</span><span class="lang-use">Security tools, automation and scripts</span></li>
-                <li><span class="lang-name">C</span><span class="lang-use">Kernels, system software and malware research</span></li>
-                <li><span class="lang-name">x86 Assembly</span><span class="lang-use">Boot code and bare metal programming</span></li>
-              </ul>
-            </div>
+        <div class="content">
+          <div class="skill-block">
+            <h3 class="block-title" data-reveal>Languages</h3>
+            <ul class="langs">
+              <li data-flip><span class="lang">Python</span><span class="use">Security tools, automation and scripts</span></li>
+              <li data-flip><span class="lang">C</span><span class="use">Kernels, system software and malware research</span></li>
+              <li data-flip><span class="lang">x86 Assembly</span><span class="use">Boot code and bare metal programming</span></li>
+            </ul>
           </div>
 
-          <div class="win-wrap win">
-            <div class="card tilt">
-              <h3>Areas</h3>
-              <ul class="area-list">
-                <li>Offensive security</li>
-                <li>Defensive security</li>
-                <li>Low level programming</li>
-                <li>Computer networking</li>
-                <li>Kernel and OS development</li>
-                <li>Malware analysis</li>
-              </ul>
-            </div>
+          <div class="skill-block">
+            <h3 class="block-title" data-reveal>Areas</h3>
+            <ul class="areas">
+              <li data-flip>Offensive security</li>
+              <li data-flip>Defensive security</li>
+              <li data-flip>Low level programming</li>
+              <li data-flip>Computer networking</li>
+              <li data-flip>Kernel and OS development</li>
+              <li data-flip>Malware analysis</li>
+            </ul>
           </div>
 
-          <div class="win-wrap win">
-            <div class="card tilt edu">
-              <h3>Education</h3>
-              <div class="edu-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.2V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.8"/></svg>
-              </div>
+          <div class="skill-block">
+            <h3 class="block-title" data-reveal>Education</h3>
+            <div class="edu" data-flip>
               <p class="edu-school">SRM University AP</p>
               <p class="edu-degree">Bachelor of Technology</p>
               <p class="edu-spec">Specialization in Cybersecurity</p>
@@ -301,39 +424,36 @@
       </section>
 
       <!-- Contact -->
-      <section id="contact" class="section">
-        <div class="contact-grid">
-          <div class="contact-info">
-            <h2 class="split">Contact</h2>
-            <p class="contact-copy reveal">
-              Want to work together, talk about security research, or just say hi?
-              Send me a message and I will get back to you.
-            </p>
+      <section class="section split-layout contact" id="contact">
+        <div class="rail">
+          <p class="label" data-reveal><span>04</span>Contact</p>
+          <h2 class="h2" data-split>Say hello</h2>
+          <p class="contact-copy" data-reveal>
+            Want to work together or talk about security research?
+            Send me a message and I will get back to you.
+          </p>
+          <div class="rail-object" aria-hidden="true"></div>
+        </div>
 
-            <ul class="socials reveal">
-              <li><a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://x.com/Jahanzaib1318" target="_blank" rel="noopener noreferrer"><span>X (Twitter)</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.instagram.com/jahanzaibmir_" target="_blank" rel="noopener noreferrer"><span>Instagram</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-              <li><a href="https://www.youtube.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>YouTube</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
-            </ul>
-          </div>
-
-          <div class="win-wrap win">
-            <div class="window form-window">
+        <div class="content">
+          <div class="win-slot" data-win-in>
+            <div class="window mail" data-window data-title="New message" data-name="message window" tabindex="-1">
               <div class="win-bar">
                 <span class="win-title">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m3.5 7 8.5 6 8.5-6" /></svg>
                   New message
                 </span>
-                <span class="win-ctrl">
-                  <button type="button" class="c-min" data-win="min" aria-label="Minimize message window"></button>
-                  <button type="button" class="c-max" data-win="max" aria-label="Maximize message window"></button>
-                  <button type="button" class="c-close" data-win="close" aria-label="Close message window"></button>
-                </span>
+                <div class="win-ctrl">
+                  <button type="button" class="c-min" data-act="min" aria-label="Minimize message window"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M0 5.5h10" /></svg></button>
+                  <button type="button" class="c-max" data-act="max" aria-label="Maximize message window">
+                    <svg class="ico-max" viewBox="0 0 10 10" aria-hidden="true"><rect x=".5" y=".5" width="9" height="9" rx="1.5" /></svg>
+                    <svg class="ico-restore" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 2.5v-1a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-1" /><rect x=".5" y="2.5" width="7" height="7" rx="1" /></svg>
+                  </button>
+                  <button type="button" class="c-close" data-act="close" aria-label="Close message window"><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M.5.5l9 9M9.5.5l-9 9" /></svg></button>
+                </div>
               </div>
-              <div class="win-content">
-                <form id="contact-form" class="win-body" novalidate>
+              <div class="win-body">
+                <form id="contact-form" class="form" novalidate>
                   <input type="hidden" name="access_key" value="58da922f-c7f2-4982-9c9a-0ca248c07ac7" />
                   <input type="hidden" name="subject" value="New message from your portfolio" />
                   <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -348,41 +468,68 @@
                   </div>
                   <div class="field">
                     <label for="f-message">Message</label>
-                    <textarea id="f-message" name="message" rows="5" required maxlength="5000"></textarea>
+                    <textarea id="f-message" name="message" rows="5" required maxlength="5000" data-lenis-prevent></textarea>
                   </div>
 
-                  <button type="submit" class="btn btn-solid submit-btn"><span class="btn-label">Send message</span></button>
-                  <p id="form-status" role="status" aria-live="polite"></p>
+                  <div class="form-foot">
+                    <button type="submit" class="btn btn-primary submit">
+                      <span class="submit-label">Send message</span>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </button>
+                    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                  </div>
                 </form>
               </div>
             </div>
-            <button type="button" class="win-reopen" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-              Write a new message
-            </button>
+            <div class="win-ghost" hidden>
+              <p class="win-ghost-text"></p>
+              <button type="button" class="btn btn-quiet btn-small"></button>
+            </div>
           </div>
+
+          <ul class="socials">
+            <li data-reveal><a href="https://github.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>GitHub</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a></li>
+            <li data-reveal><a href="https://www.linkedin.com/in/jahanzaib-ashraf-mir" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a></li>
+            <li data-reveal><a href="https://x.com/Jahanzaib1318" target="_blank" rel="noopener noreferrer"><span>X</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a></li>
+            <li data-reveal><a href="https://www.instagram.com/jahanzaibmir_" target="_blank" rel="noopener noreferrer"><span>Instagram</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a></li>
+            <li data-reveal><a href="https://www.youtube.com/jahanzaibmir" target="_blank" rel="noopener noreferrer"><span>YouTube</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a></li>
+          </ul>
         </div>
       </section>
 
-      <footer class="footer">
-        <p>© <span id="year">2026</span> Jahanzaib Ashraf Mir</p>
-        <a href="#hero" class="to-top">Back to top
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-        </a>
-      </footer>
+      <!-- dims the page behind a maximized window. It lives inside main so
+           it shares a stacking layer with the windows it sits under. -->
+      <div class="win-backdrop" hidden></div>
     </main>
 
+    <footer class="footer">
+      <p class="outro" data-outro aria-hidden="true">Jahanzaib Ashraf Mir</p>
+      <div class="footer-row">
+        <p>© <span data-year>2026</span> Jahanzaib Ashraf Mir</p>
+        <a class="link" href="#top">
+          Back to top
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+        </a>
+      </div>
+    </footer>
+
+    <!-- Minimized windows go here, like a taskbar -->
+    <div class="tray" hidden>
+      <ul aria-label="Minimized windows"></ul>
+    </div>
+    <div class="grain" aria-hidden="true"></div>
+
     <script>
-      // Safety net: never leave the boot screen up if main.js fails to load
+      // Safety net: if the scripts fail to load, never leave the page hidden.
       setTimeout(function () {
-        var b = document.body;
-        b.classList.add('intro-out', 'loaded');
-        b.classList.remove('is-loading');
-        if (!window.__revealReady) {
-          document.querySelectorAll('.reveal, .win, .split').forEach(function (el) { el.classList.add('visible'); });
-        }
-      }, 7000);
+        if (window.__ready) return;
+        document.documentElement.classList.remove('is-intro', 'no-scroll');
+        document.body.classList.remove('is-loading');
+        document.body.classList.add('intro-done');
+        document.querySelectorAll('[data-reveal], [data-split], [data-flip], [data-win-in]').forEach(function (el) {
+          el.classList.add('is-in');
+        });
+      }, 6000);
     </script>
-    <noscript><style>.intro,.cursor-ring{display:none}body.is-loading main,body.is-loading [data-hero],.reveal,.win>*{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
   </body>
 </html>

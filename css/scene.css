@@ -1,0 +1,44 @@
+/* The 4D shapes behind the page, and the small label that names them */
+
+.scene {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s var(--ease);
+}
+.scene.is-on { opacity: 1; }
+
+.figure {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 1;
+  width: 250px;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--muted);
+  opacity: 0;
+}
+.figure-name { display: flex; gap: 12px; color: var(--text); }
+.figure-num { color: var(--faint); }
+.figure-note { max-width: 30ch; }
+.figure-angles {
+  margin-top: 6px;
+  color: var(--faint);
+  white-space: pre;
+  font-variant-numeric: tabular-nums;
+}
+.figure .is-swap { animation: figureSwap 0.8s var(--ease) both; }
+@keyframes figureSwap {
+  from { opacity: 0; transform: translate3d(0, 7px, 0); }
+}
+
+@media (max-width: 959px) {
+  .figure { display: none; }
+}

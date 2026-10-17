@@ -1,0 +1,25 @@
+/* People who ask their system for less motion get a calm, still page */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+  .js .intro { display: none; }
+  .js body.is-loading main,
+  .js body.is-loading .hero,
+  .js body.is-loading .nav,
+  .js [data-reveal],
+  .js [data-flip],
+  .js [data-win-in],
+  .js [data-enter],
+  .js .hero-name .ch,
+  .js [data-split] .w > i {
+    opacity: 1;
+    transform: none;
+  }
+  .js .statement .sw { opacity: 1; }
+  .term .cur { animation: none; }
+}

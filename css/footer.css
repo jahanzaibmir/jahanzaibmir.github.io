@@ -1,0 +1,36 @@
+/* ---------- Footer ---------- */
+
+.footer {
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: clamp(60px, 9vw, 120px) var(--gutter) 0;
+  overflow: hidden;
+}
+
+/* the name, very large. Each letter stands up from the floor as it scrolls in */
+.outro {
+  font-size: 10vw;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  color: var(--white);
+  white-space: nowrap;
+  perspective: 900px;
+  padding-bottom: 0.08em;
+}
+.outro .oc { display: inline-block; transform-origin: 50% 100%; backface-visibility: hidden; }
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: clamp(28px, 4vw, 48px);
+  padding: 24px 0 30px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--faint);
+}
+.footer-row .link { font-size: 14px; color: var(--text); }
+.footer-row .link:hover svg { transform: translate3d(0, -3px, 0); }
